@@ -6,3 +6,6 @@ snap list --all | awk '/disabled/{print $1, $3}' |
     while read snapname revision; do
         snap remove "$snapname" --revision="$revision"
     done
+sudo apt remove $(deborphan)
+sudo apt autoremove --purge
+sudo apt-get autoclean && sudo apt-get autoremove
