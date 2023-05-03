@@ -29,9 +29,10 @@ git clone https://github.com/yownas/shift-attention.git
 git clone https://github.com/AlUlkesh/stable-diffusion-webui-images-browser.git
 git clone https://github.com/Coyote-A/ultimate-upscale-for-automatic1111.git
 git clone https://github.com/zanllp/sd-webui-infinite-image-browsing.git
-cp ~/scripts/startup.sh /home/ubuntu/apps/stable-diffusion-webui
-cp ~/scripts/user.css /home/ubuntu/apps/stable-diffusion-webui
+cp /home/ubuntu/scripts/sd-start.sh /home/ubuntu/apps/stable-diffusion-webui
+cp /home/ubuntu/scripts/user.css /home/ubuntu/apps/stable-diffusion-webui
 touch /home/ubuntu/apps/stable-diffusion-webui/webui.log
+/home/ubuntu/scripts/update_route53.sh
 # Create a new session in tmux named webui and start up webui for stable diffusion
 tmux new-session -d -s webui
 tmux send-keys -t webui "cd /home/ubuntu/apps/stable-diffusion-webui" Enter
