@@ -34,6 +34,7 @@ cp /home/ubuntu/scripts/user.css /home/ubuntu/apps/stable-diffusion-webui
 cp /home/ubuntu/scripts/styles.csv /home/ubuntu/apps/stable-diffusion-webui
 touch /home/ubuntu/apps/stable-diffusion-webui/webui.log
 /home/ubuntu/scripts/update_route53.sh
+aws s3 cp s3://postwonder-models/ControlNet-v1-1 /home/ubuntu/apps/stable-diffusion-webui/extensions/sd-webui-controlnet/models/ControlNet-v1-1 --recursive
 # Create a new session in tmux named webui and start up webui for stable diffusion
 tmux new-session -d -s webui
 tmux send-keys -t webui "cd /home/ubuntu/apps/stable-diffusion-webui" Enter
