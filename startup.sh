@@ -8,7 +8,7 @@ cd /home/ubuntu/apps
 git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
 /home/ubuntu/goofys -o nonempty postwonder-outputs /home/ubuntu/apps/stable-diffusion-webui/outputs
 /home/ubuntu/goofys -o nonempty postwonder-models /home/ubuntu/apps/stable-diffusion-webui/models/Stable-diffusion
-/home/ubuntu/goofys -o nonempty postwonder-models/ControlNet-v1-1 /home/ubuntu/apps/stable-diffusion-webui/extensions/sd-webui-controlnet/models
+/home/ubuntu/goofys -o nonempty postwonder-models/ControlNet-v1-1/  /home/ubuntu/apps/stable-diffusion-webui/extensions/sd-webui-controlnet/models
 cp /home/ubuntu//apps/stable-diffusion-webui/models/Stable-diffusion/vae* /home/ubuntu/apps/stable-diffusion-webui/models/VAE
 cp /home/ubuntu/webui-user.sh /home/ubuntu/apps/stable-diffusion-webui/
 cp /home/ubuntu/sd-start.sh /home/ubuntu/apps/stable-diffusion-webui/
