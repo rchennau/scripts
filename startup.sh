@@ -77,6 +77,7 @@ else
 		cp /home/ubuntu/scripts/styles.csv /home/ubuntu/apps/stable-diffusion-webui
 		echo "Creating log file"
 		touch /home/ubuntu/apps/stable-diffusion-webui/webui.log
+		sudo chown -R ubuntu:ubuntu /home/ubuntu/apps/stable-diffusion-webui
 	else
 		echo "Mount failed."
 		exit 3
@@ -86,7 +87,7 @@ fi
 echo "Start up stable-diffusion with tmux with session name webui"
 tmux new-session -d -s webui
 tmux send-keys -t webui "cd /home/ubuntu/apps/stable-diffusion-webui" Enter
-tmux send-keys -t webui "python -m venv venv" Enter
+# tmux send-keys -t webui "python -m venv venv" Enter
 tmux send-keys -t webui "/home/ubuntu/apps/stable-diffusion-webui/sd-start.sh | tee -a webui.log" Enter
 exit
 
