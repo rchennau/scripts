@@ -11,7 +11,7 @@
 
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram --opt-split-attention"
 # export COMMANDLINE_ARGS="--api --listen --no-progressbar-hiding --enable-insecure-extension-access --gradio-auth=Richard:akc2003 --autolaunch --opt-sub-quad-attention --no-hashing --xformers --opt-channelslast --disable-safe-unpickle"
-export COMMANDLINE_ARGS="--api --port=7860 --listen --no-progressbar-hiding --enable-insecure-extension-access --share --autolaunch --opt-sub-quad-attention --no-hashing --xformers --opt-channelslast --disable-safe-unpickle --tls-keyfile=cert.pem --tls-certfile=privkey.pem --cors-allow-origins=https://stable.chennault.net:7860"
+export COMMANDLINE_ARGS="--api --port=7860 --listen --no-progressbar-hiding --enable-insecure-extension-access --share --autolaunch --opt-sub-quad-attention --no-hashing --opt-channelslast --disable-safe-unpickle --cors-allow-origins=https://stable.chennault.net:7860"
 
 # python3 executable
 #python_cmd="python3"

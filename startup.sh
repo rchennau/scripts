@@ -33,6 +33,7 @@ fi
 ## Check if the mount point exists and is a directory
 if [ -d "$mount_point" ]; then
 	echo "Mount point $mount_point exsits."
+	sudo chown -R ubuntu:ubuntu /home/ubuntu/apps			# Change ownership to ubuntu (user) and ubuntu (group)
 else
 	echo "Mount point $mount_point does not exist or is not a directory."
 	echo "Trying to mount $device on $mount_point as /home/ubuntu/apps ."
