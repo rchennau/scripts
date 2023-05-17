@@ -44,13 +44,14 @@ else
 		echo "Installing stable-diffusion."
 		## Install Stable Diffusion
 		cd /home/ubuntu/apps
+		echo "Cloning stable-diffusion to $mount_point "
 		git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
 		echo "Mounting output directory at /home/ubuntu/apps/stable-diffusion-webui/outputs "
-		/home/ubuntu/goofys -o nonempty postwonder-outputs /home/ubuntu/apps/stable-diffusion-webui/outputs
+		/home/ubuntu/goofys postwonder-outputs /home/ubuntu/apps/stable-diffusion-webui/outputs
 		echo "Copying model directory to /home/ubuntu/apps/stable-diffusion-webui/models/Stable-diffusion "
 		aws s3 cp s3://postwonder-models /home/ubuntu/apps/stable-diffusion-webui/models/Stable-diffusion --recursive
 		echo "Copying VAE files  to /home/ubuntu/apps/stable-diffusion-webui/models/VAE"
-		cp /home/ubuntu//apps/stable-diffusion-webui/models/Stable-diffusion/vae* /home/ubuntu/apps/stable-diffusion-webui/models/VAE
+		cp /home/ubuntu/apps/stable-diffusion-webui/models/Stable-diffusion/vae* /home/ubuntu/apps/stable-diffusion-webui/models/VAE
 		echo "Copying controlnet files  to /home/ubuntu/apps/stable-diffusion-webui/models/Stable-diffusion "
 		cp /home/ubuntu/apps/stable-diffusion-webui/models/Stable-diffusion/ControlNet-v1-1 /home/ubuntu/apps/stable-diffusion-webui/extensions/sd-webui-controlNet/models
 		echo "Installing extensions"
@@ -75,9 +76,9 @@ else
 		echo "Copying various startup files"
 		cp /home/ubuntu/scripts/webui-user.sh /home/ubuntu/apps/stable-diffusion-webui/
 		cp /home/ubuntu/scripts/sd-start.sh /home/ubuntu/apps/stable-diffusion-webui/
-		cp /home/ubuntu/scripts/sd-start.sh /home/ubuntu/apps/stable-diffusion-webui
-		cp /home/ubuntu/scripts/user.css /home/ubuntu/apps/stable-diffusion-webui
-		cp /home/ubuntu/scripts/styles.csv /home/ubuntu/apps/stable-diffusion-webui
+		cp /home/ubuntu/scripts/sd-start.sh /home/ubuntu/apps/stable-diffusion-webui/
+		cp /home/ubuntu/scripts/user.css /home/ubuntu/apps/stable-diffusion-webui/
+		cp /home/ubuntu/scripts/styles.csv /home/ubuntu/apps/stable-diffusion-webui/
 		echo "Creating log file"
 		touch /home/ubuntu/apps/stable-diffusion-webui/webui.log
 		sudo chown -R ubuntu:ubuntu /home/ubuntu/apps/stable-diffusion-webui
