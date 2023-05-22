@@ -1,1 +1,1 @@
-sudo -H -u ubuntu bash -c 'cd /home/ubuntu/apps/stable-diffusion-webui; /home/ubuntu/apps/stable-diffusion-webui/webui.sh'
+sudo -H -u ubuntu bash -c 'cd /home/ubuntu/app/stable-diffusion-webui; /home/ubuntu/app/stable-diffusion-webui/webui.sh'

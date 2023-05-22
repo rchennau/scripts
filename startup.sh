@@ -5,7 +5,7 @@ set -x 								# Enable debug mode in bash
 echo on
 
 device=/dev/nvme1n1						# define the local variable block device
-mount_point=/home/ubuntu/app					# define the local variable mount point
+mount_point=/home/ubuntu/app/stable-diffusion-webui/models	# define the local variable mount point
 /home/ubuntu/scripts/update_route53.sh				# run the script to update route53 with current IP
 
 ## Check if the device exists and is a block device
@@ -44,7 +44,7 @@ else
 		echo "Installing stable-diffusion."
 		## Install Stable Diffusion
 		cd /home/ubuntu/app
-		echo "Cloning stable-diffusion to $mount_point "
+		echo "Cloning stable-diffusion "
 		git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
 		echo "Mounting output directory at /home/ubuntu/app/stable-diffusion-webui/outputs "
 		/home/ubuntu/goofys postwonder-outputs /home/ubuntu/app/stable-diffusion-webui/outputs
@@ -82,6 +82,9 @@ else
 		echo "Creating log file"
 		touch /home/ubuntu/app/stable-diffusion-webui/webui.log
 		sudo chown -R ubuntu:ubuntu /home/ubuntu/app/stable-diffusion-webui
+		echo "Stable diffusion requires tmalloc for better CPU memory management"
+		echo "Reference issue: https://bytemeta.vip/repo/AUTOMATIC1111/stable-diffusion-webui/issues/10117"
+		sudo apt-get install libgoogle-perftools4 libtcmalloc-minimal4 -y
 	else
 		echo "Mount failed."
 		exit 3
