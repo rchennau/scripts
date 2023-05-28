@@ -1,5 +1,9 @@
+sudo sudo mkfs -t xfs /dev/nvme1n1
+sudo mount /dev/nvme1n1 /home/ubuntu/app/data
+sudo aws s3 cp s3://postwonder-models /home/ubuntu/app/data --recursive
+sudo chown -R ubuntu:ubuntu /home/ubuntu/app/data
 docker run --gpus all --restart always --name diffusion_webui -d \
-    -v /home/ubuntu/app/stable-diffusion-webui/models:/app/models \
+    -v /home/ubuntu/app/data/models:/app/models \
     -v /home/ubuntu/app/stable-diffusion-webui/outputs:/app/outputs \
     -v /home/ubuntu/app/stable-diffusion-webui/extensions:/app/extensions \
     -v /home/ubuntu/app/stable-diffusion-webui/configs:/app/configs \

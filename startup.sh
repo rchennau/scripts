@@ -1,11 +1,12 @@
 #!/bin/bash
 
 exec &> /home/ubuntu/app/stable-diffusion-webui/webui.log	# Redirect stdout and stderr to the log file
-set -x 								# Enable debug mode in bash
+# set -x 								# Enable debug mode in bash
 echo on
 
 device=/dev/nvme1n1						# define the local variable block device
 mount_point=/home/ubuntu/app/stable-diffusion-webui/models	# define the local variable mount point
+
 /home/ubuntu/scripts/update_route53.sh				# run the script to update route53 with current IP
 
 ## Check if the device exists and is a block device
