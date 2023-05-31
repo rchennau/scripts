@@ -30,3 +30,7 @@ if [ -b "$device_name" ]; then
         fi
 fi
 source /home/ubuntu/scripts/update_route53.sh                                # run the script to update route53 with current IP
+sudo fallocate -l 20G /home/ubuntu/app/data/swapfile
+sudo chmod 600 /home/ubuntu/app/data/swapfile
+sudo mkswap /home/ubuntu/app/data/swapfile
+sudo swapon /home/ubuntu/app/data/swapfile
