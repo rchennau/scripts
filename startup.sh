@@ -12,8 +12,11 @@ mount_point=/home/ubuntu/app/stable-diffusion-webui/models	# define the local va
 ## Check if the device exists and is a block device
 if [ -b "$device" ]; then
 	echo "Device $device exists."
-	fs_type=$(blkid -o value -s TYPE "$device")
+	# fs_type=$(blkid -o value -s TYPE "$device")
+	fs_type=$(df --output=fstype "$device" | tail -n 1)
+
 	if [ "$fs_type" == "xfs" ]; then
+
 		echo "Device $device has an XFS file system"
 	else
 		echo "Device $device does not have an XFS file system"
