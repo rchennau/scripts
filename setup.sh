@@ -21,6 +21,7 @@ if [ -b "$device_name" ]; then
 	       printf "Device $device_name does not have an XFS file system\n"
                printf "Trying to create XFS on $device_name .\n"
                sudo mkfs -t xfs "$device_name"
+	       fs_type=$(lsblk -f "$device_name" | awk '/^\/nvme1n1/{print $2}') 
                printf "fs_type =  $fs_type .\n"
                if [ "$fs_type" == "xfs" ]; then
                     printf "Device $device_name XFS created."
