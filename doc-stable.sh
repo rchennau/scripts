@@ -2,7 +2,6 @@
 set -x 								# Enable debug mode in bash
 echo on
 
-sudo mount /dev/nvme1n1 /home/ubuntu/app/data
 sudo aws s3 cp s3://postwonder-models /home/ubuntu/app/data --recursive
 sudo chown -R ubuntu:ubuntu /home/ubuntu/app/data
 docker run --gpus all --restart always --name diffusion_webui -d \

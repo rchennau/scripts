@@ -16,8 +16,9 @@ while true; do
     # Send a HUP signal to the process
     if [[ -n $PID ]]; then
       echo "Available memory below threshold. Sending HUP signal to process $PID."
-      docker stop diffusion_webui
-      docker start diffusion_webui 
+      # docker stop diffusion_webui
+      # docker start diffusion_webui 
+      sudo echo 3 > /proc/sys/vm/drop_caches clear cache
       # sudo kill -HUP $PID
     fi
   fi
