@@ -38,3 +38,4 @@ sudo fallocate -l 20G /home/ubuntu/app/data/swapfile
 sudo chmod 600 /home/ubuntu/app/data/swapfile
 sudo mkswap /home/ubuntu/app/data/swapfile
 sudo swapon /home/ubuntu/app/data/swapfile
+source /home/ubuntu/scripts/doc-stable.sh

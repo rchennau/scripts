@@ -1,9 +1,9 @@
 #!/bin/bash
 set -x 								# Enable debug mode in bash
 echo on
-
-sudo aws s3 cp s3://postwonder-models /home/ubuntu/app/data --recursive
-sudo chown -R ubuntu:ubuntu /home/ubuntu/app/data
+tmux new-session -d -s docker
+tmux send-keys -t docker "sudo aws s3 cp s3://postwonder-models /home/ubuntu/app/data --recursive"
+tmux send-keys -t docker "sudo chown -R ubuntu:ubuntu /home/ubuntu/app/data"
 docker run --gpus all --restart always --name diffusion_webui -d \
     -v /home/ubuntu/app/data/models:/app/models \
     -v /home/ubuntu/app/stable-diffusion-webui/outputs:/app/outputs \
