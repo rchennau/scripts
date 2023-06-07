@@ -15,3 +15,5 @@ docker run --gpus all --restart always --name diffusion_webui -d \
    python webui.py --listen --no-download-sd-model --enable-insecure-extension-access --api --xformers --opt-split-attention --no-progressbar-hiding \
    --enable-insecure-extension-access --share --autolaunch --opt-sub-quad-attention --no-hashing --opt-channelslast --disable-safe-unpickle \
    --cors-allow-origins=https://stable.chennault.net:7860 \
+tmux send-keys -t docker "~/scripts/models-sync.sh" Enter
+tmux send-keys -t docker "~/scripts/outputs-sync.sh" Enter
