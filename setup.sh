@@ -1,6 +1,6 @@
 #!/bin/bash
-# set -x                                                          # Enable debug mode in bash
-# echo on
+set -x                                                          # Enable debug mode in bash
+echo on
 
 device_name=/dev/nvme1n1                                             # define the local variable block device
 #device_name=$(lsblk -o NAME | grep nvme1n1 | sed -n 1p) 		# define the local variable block device

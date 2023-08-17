@@ -3,6 +3,8 @@ set -x 								# Enable debug mode in bash
 echo on
 tmux new-session -d -s docker
 tmux send-keys -t docker "mount-s3 postwonder-models /home/ubuntu/app/data" Enter # fire and forget 
+tmux send-keys -t docker "mount-s3 postwonder-outputs /home/ubuntu/app/stable-diffusion-webui/outputs" Enter # fire and forget 
+
 # tmux send-keys -t docker "sudo aws s3 cp s3://postwonder-models /home/ubuntu/app/data --recursive" Enter # fire and forget 
 # tmux send-keys -t docker "sudo chown -R ubuntu:ubuntu /home/ubuntu/app/data" Enter
 docker run --gpus all --restart always --name diffusion_webui -d \
