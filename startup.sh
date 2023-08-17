@@ -1,7 +1,6 @@
 #!/bin/bash
-
-exec &> /home/ubuntu/app/stable-diffusion-webui/webui.log	# Redirect stdout and stderr to the log file
-# set -x 								# Enable debug mode in bash
+# exec &> /home/ubuntu/app/stable-diffusion-webui/webui.log	# Redirect stdout and stderr to the log file
+set -x 								# Enable debug mode in bash
 echo on
 
 device=/dev/nvme1n1						# define the local variable block device
@@ -51,9 +50,10 @@ else
 		echo "Cloning stable-diffusion "
 		git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
 		echo "Mounting output directory at /home/ubuntu/app/stable-diffusion-webui/outputs "
-		/home/ubuntu/goofys postwonder-outputs /home/ubuntu/app/stable-diffusion-webui/outputs
-		echo "Copying model directory to /home/ubuntu/app/stable-diffusion-webui/models/Stable-diffusion "
-		aws s3 cp s3://postwonder-models /home/ubuntu/app/stable-diffusion-webui/models/Stable-diffusion --recursive
+		mount-s3 postwonder-outputs /home/ubuntu/app/stable-diffusion-webui/outputs
+		# /home/ubuntu/goofys postwonder-outputs /home/ubuntu/app/stable-diffusion-webui/outputs
+		echo "Mounting model directory to /home/ubuntu/app/stable-diffusion-webui/models/Stable-diffusion "
+		mount-s3 postwonder-models /home/ubuntu/app/data
 		echo "Copying VAE files  to /home/ubuntu/app/stable-diffusion-webui/models/VAE"
 		cp /home/ubuntu/app/stable-diffusion-webui/models/Stable-diffusion/vae* /home/ubuntu/app/stable-diffusion-webui/models/VAE
 		echo "Copying controlnet files  to /home/ubuntu/app/stable-diffusion-webui/models/Stable-diffusion "
