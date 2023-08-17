@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Detect operating system platform
-# OS=$(uname)
+OS=$(uname)
 echo "Operating System : $OS"
 
 linux_variant="Unknown"
@@ -20,7 +20,8 @@ else
                 echo "Linux detected"
                 if [ -f "/etc/os-release" ]; then
                     source /etc/os-release
-                    if [[ "SID" == "debian" ]]; then
+                    echo "ID_LIKE: $ID_LIKE"
+                    if [[ "$ID_LIKE" == "debian" ]]; then
                         linux_variant="Debian"
                         echo "Linux variant: $linux_variant"
                         wget "$debian_link"
