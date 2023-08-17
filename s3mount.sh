@@ -13,7 +13,11 @@ if command -v mount-s3 &>/dev/null; then
     echo "The 'mount-s3' command is installed."
 else
     echo "The 'mount-s3' command is not installed."
-    read -p "Do you want to install mount-s3 (yes/no): " answer
+    # Reqeust user action and default to yes after 10 seconds and continue
+    read -t 10 -p "Do you want to install mount-s3 (yes/no): " answer 
+    if [[ -z "$answer" ]]; then
+	    answer="yes"
+    fi
     case $answer in
         y|Y|yes|Yes)
             if [[ "$OS" == "Linux" ]]; then
@@ -28,7 +32,10 @@ else
 			echo "Begin installation"
 			sudo apt-get install ./mount-s3.deb
 			if command -v mount-s3 &>/dev/null; then
-    				echo "The 'mount-s3' command is installed."
+    				echo "The 'mount-s3' command was successfuly installed."
+				echo "Usage: " eval mount-s3
+    				echo "Clieaning install."
+				rm ./mount-s3.deb
 				exit 1
 			fi
 				echo "Installation failed. Check for errors."
