@@ -23,8 +23,16 @@ else
                     echo "ID_LIKE: $ID_LIKE"
                     if [[ "$ID_LIKE" == "debian" ]]; then
                         linux_variant="Debian"
-                        echo "Linux variant: $linux_variant"
+                        echo "Linux variant: $linux_variant.  Begin Download"
                         wget "$debian_link"
+			echo "Begin installation"
+			sudo apt-get install ./mount-s3.deb
+			if command -v mount-s3 &>/dev/null; then
+    				echo "The 'mount-s3' command is installed."
+				exit 1
+			fi
+				echo "Installation failed. Check for errors."
+				exit 1
                     fi
                 fi
             elif [[ "$OS" == "Darwin" ]]; then
