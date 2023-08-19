@@ -16,7 +16,7 @@ else
 	echo "The asw cli is not installed."
 	if command -v unzip &>/dev/null; then
 		echo "unzip is not installed.  Required for installing"
-		read -t 5 -p "Do you want to proceed (yes/no): " anwer
+		read -t 5 -p "Do you want to proceed (yes/no): " answer
 			if [[ -z "$answer" ]]; then
 	    		answer="yes"
     		fi	
@@ -41,7 +41,7 @@ else
                         		unzip "$debian_link"
 								sudo ./aws/install
 								echo "awscli installed"
-							elif 
+							else 
 								echo "OS $linux_variant is currently unsupported"
 								exit 1
 							
