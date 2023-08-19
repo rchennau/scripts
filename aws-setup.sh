@@ -7,14 +7,17 @@ echo "Operating System : $OS"
 linux_variant="Unknown"
 
 # package download links
-debian_link="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+debian_link="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
 
 #Detect if awscli is installed
 if command -v aws &>/dev/null; then
 	echo "The aws cli is already installed."
 else 
 	echo "The asw cli is not installed."
-	read -p "Do you want to install aws cli (yes/no): " answer
+	read -t 5 -p "Do you want to install aws cli (yes/no): " answer
+	    if [[ -z "$answer" ]]; then
+	    	answer="yes"
+    	fi
 	case $answer in
 		y|Y|Yes|yes|YES)
 			if [[ "$OS" == "Linux" ]]; then
@@ -27,15 +30,11 @@ else
                         		echo "Linux variant: $linux_variant.  Begin Download"
                         		wget "$debian_link"
                         		echo "Begin installation"
-                        		sudo apt-get install ./mount-s3.deb
-                        		if command -v mount-s3 &>/dev/null; then
-                                		echo "The 'aws cli' command is installed."
-                                		exit 1
-                        		fi
-                                		echo "Installation failed. Check for errors."
-                                		exit 1
-                    			fi
-                		fi
+                        		unzip "$debian_link"
+								sudo ./aws/install
+								echo "awscli installed"
+                			fi
+					fi
 			fi
 			;;
 		n|N|no|No)
