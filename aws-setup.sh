@@ -41,7 +41,10 @@ else
                         		unzip "$debian_link"
 								sudo ./aws/install
 								echo "awscli installed"
-                			fi
+							elif 
+								echo "OS $linux_variant is currently unsupported"
+								exit 1
+							fi
 					fi
 			fi
 			;;
