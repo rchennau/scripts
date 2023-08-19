@@ -30,7 +30,7 @@ else
                         echo "Linux variant: $linux_variant.  Begin Download"
                         wget "$debian_link"
 			echo "Begin installation"
-			sudo apt-get install ./mount-s3.deb
+			sudo apt-get -y install ./mount-s3.deb
 			if command -v mount-s3 &>/dev/null; then
     				echo "The 'mount-s3' command was successfuly installed."
 				echo "Usage: " eval mount-s3

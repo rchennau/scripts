@@ -20,7 +20,7 @@ else
 			if [[ -z "$answer" ]]; then
 	    		answer="yes"
     		fi	
-		sudo apt-get install unzip
+		sudo apt-get -y install unzip
 	fi
 	read -t 5 -p "Do you want to install aws cli (yes/no): " answer
 	    if [[ -z "$answer" ]]; then
