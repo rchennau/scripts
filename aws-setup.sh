@@ -14,6 +14,14 @@ if command -v aws &>/dev/null; then
 	echo "The aws cli is already installed."
 else 
 	echo "The asw cli is not installed."
+	if command -v unzip &>/dev/null; then
+		echo "unzip is not installed.  Required for installing"
+		read -t 5 -p "Do you want to proceed (yes/no): " anwer
+			if [[ -z "$answer" ]]; then
+	    		answer="yes"
+    		fi	
+		sudo apt-get install unzip
+	fi
 	read -t 5 -p "Do you want to install aws cli (yes/no): " answer
 	    if [[ -z "$answer" ]]; then
 	    	answer="yes"
