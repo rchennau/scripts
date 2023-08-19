@@ -16,10 +16,6 @@ else
 	echo "The asw cli is not installed."
 	if command -v unzip &>/dev/null; then
 		echo "unzip is not installed.  Required for installing"
-		read -t 5 -p "Do you want to proceed (yes/no): " answer
-			if [[ -z "$answer" ]]; then
-	    		answer="yes"
-    		fi	
 		sudo apt-get -y install unzip
 	fi
 	read -t 5 -p "Do you want to install aws cli (yes/no): " answer
@@ -41,13 +37,12 @@ else
                         		unzip "$debian_link"
 								sudo ./aws/install
 								echo "awscli installed"
-							else 
-								echo "OS $linux_variant is currently unsupported"
-								exit 1
-							
-					fi
+                    		else
+                    			echo "OS $linux_variant is currently unsupported"
+                    			exit 1
+                    		fi
 			fi
-			;;
+		;;
 		n|N|no|No)
             		echo "exiting"
             		exit 1
@@ -55,5 +50,6 @@ else
         *)
             echo "Invalid input.  Please enter 'yes' or 'no'."
             exit 1
+			;;
         esac
 fi
