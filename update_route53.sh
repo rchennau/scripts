@@ -19,7 +19,7 @@ else
 	echo "The cname for runpod.io web instance is $RUNPOD_POD_ID"
     cname_record=$RUNPOD_POD_ID+"-3001.proxy.runpod.net"
     # Create the change set
-    aws route53 change-record-sets \
+    aws route53 change-resource-record-sets \
         --hosted-one-id $HOSTED_ZONE_ID \
         --change-batch '{
             "Changes":[{
