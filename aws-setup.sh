@@ -40,13 +40,14 @@ else
                     		else
                     			echo "OS $linux_variant is currently unsupported"
                     			exit 1
-                    		fi
+							fi
+                   fi
 			fi
 		;;
 		n|N|no|No)
-            		echo "exiting"
-            		exit 1
-            		;;
+            echo "exiting"
+            exit 1
+            ;;
         *)
             echo "Invalid input.  Please enter 'yes' or 'no'."
             exit 1
