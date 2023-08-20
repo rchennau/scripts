@@ -3,6 +3,7 @@
 # Replace with your own values
 HOSTED_ZONE_ID="Z37WEDFVQ5POLT"
 RECORD_NAME="stable.chennault.net"
+cname_record="runpod.chennault.net"
 TTL=60
 
 # Get the public IP address of the dynamic host
