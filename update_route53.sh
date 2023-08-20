@@ -19,9 +19,9 @@ else
 	echo "The cname for runpod.io web instance is $RUNPOD_POD_ID"
     cname_record=$RUNPOD_POD_ID+"-3001.proxy.runpod.net"
     # Create the change set
-    change_set=$(aws route53 change-resource-record-sets 
-        --hosted-zone-id "${hosted_zone_name}" 
-        --change-type UPSERT 
+    change_set=$(aws route53 change-resource-record-sets \
+        --hosted-zone-id "${hosted_zone_name}" \
+        --change-type UPSERT \
         --new-record-sets "{\"Name\": \"${cname_record}", "Type": "CNAME", "TTL": 300, "ResourceRecords": [{"Value": "${cname_record_value}\"}]}")
     # Execute the change set
     aws route53 xexecute-change-set $change_set
