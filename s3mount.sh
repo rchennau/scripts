@@ -8,7 +8,14 @@ linux_variant="Unknown"
 
 # package download links
 debian_link="https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.deb"
-
+# Check if the user is root
+	if [[ "$(id -u)" == "0" ]]; then
+        priveleged_user="apt-get"
+		echo "Warning: Running as root user."
+    else
+        priveleged_user="sudo apt-get"
+		echo "INFO: Running as $(id -F)."
+	fi
 if command -v mount-s3 &>/dev/null; then
     echo "The 'mount-s3' command is installed."
 else
@@ -30,7 +37,7 @@ else
                         echo "Linux variant: $linux_variant.  Begin Download"
                         wget "$debian_link"
 			echo "Begin installation"
-			sudo apt-get -y install ./mount-s3.deb
+			$priveleged_user -y install ./mount-s3.deb
 			if command -v mount-s3 &>/dev/null; then
     				echo "The 'mount-s3' command was successfuly installed."
 				echo "Usage: " eval mount-s3
