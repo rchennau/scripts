@@ -8,7 +8,14 @@ linux_variant="Unknown"
 
 # package download links
 debian_link="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
-
+# Check if the user is root
+	if [[ "$(id -u)" == "0" ]]; then
+        priveleged_user="apt-get"
+		echo "Warning: Running as root user."
+    else
+        priveleged_user="sudo apt-get"
+		echo "INFO: Running as $(id -F)."
+	fi
 #Detect if awscli is installed
 if command -v aws &>/dev/null; then
 	echo "The aws cli is already installed."
@@ -16,7 +23,8 @@ else
 	echo "The asw cli is not installed."
 	if command -v unzip &>/dev/null; then
 		echo "unzip is not installed.  Required for installing"
-		sudo apt-get -y install unzip
+		# sudo apt-get -y install unzip
+		$priveleged_user -y install unzip 
 	fi
 	read -t 5 -p "Do you want to install aws cli (yes/no): " answer
 	    if [[ -z "$answer" ]]; then
