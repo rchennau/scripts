@@ -23,7 +23,7 @@ else
         --change-type UPSERT 
         --new-record-sets "{\"Name\": \"${cname_record}", "Type": "CNAME", "TTL": 300, "ResourceRecords": [{"Value": "${cname_record_value}\"}]}")
     # Execute the change set
-    aws route53 change-resource-record-sets $change_set
+    aws $change_set
     exit 1
 fi
 
