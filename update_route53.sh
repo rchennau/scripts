@@ -20,7 +20,7 @@ else
     cname_record=$RUNPOD_POD_ID+"-3001.proxy.runpod.net"
     # Create the change set
     aws route53 change-resource-record-sets \
-        --hosted-one-id $HOSTED_ZONE_ID \
+        --hosted-zone-id $HOSTED_ZONE_ID \
         --change-batch '{
             "Changes":[{
                 "Action": "UPSERT",
