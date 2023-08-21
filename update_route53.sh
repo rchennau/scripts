@@ -28,11 +28,11 @@ else
                 "ResourceRecordSet": {
                     "Name": "'$CNAME_RECORD_VALUE'",
                     "Type": "CNAME",
-                    "TTL": 300,
+                    "TTL": "300",
                     "AliasTarget": {
                         "ResourceRecords" : [{
-                            "HostedZoneId": "$HOSTED_ZONE_ID",
-                            "DNSName": "$cname_record_value",
+                            "HostedZoneId": "'$HOSTED_ZONE_ID'",
+                            "DNSName": "'$cname_record_value'",
                         }]
                     }
                 }
