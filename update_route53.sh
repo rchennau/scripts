@@ -29,9 +29,9 @@ else
                     "Name": "'$CNAME_RECORD'",
                     "Type": "CNAME",
                     "TTL":300,
-                    "HostedZoneId": "'$HOSTED_ZONE_ID'",
-                    "DNSName": "'$cname_record_value'",
-                    "EvaluateTargetHealth": false
+                    "ResourceRecordSet": [{
+                        "Value": "'$cname_record_value'"
+                    }]
                 }
             }]
         }'
