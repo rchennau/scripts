@@ -31,7 +31,7 @@ else
                     "TTL":300,
                     "AliasTarget": {
                         "ResourceRecords" : [{
-                            "DNSName": "'$cname_record_value'",
+                            "DNSName": "'$cname_record_value'"
                         }]
                     }
                 }
