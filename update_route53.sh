@@ -31,9 +31,7 @@ else
                     "TTL":300,
                     "AliasTarget": {
                         "ResourceRecords" : [{
-                            "HostedZoneId": "'$HOSTED_ZONE_ID'",
                             "DNSName": "'$cname_record_value'",
-                            "EvaluateTargetHealth": false
                         }]
                     }
                 }
