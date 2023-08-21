@@ -35,7 +35,6 @@ else
                             "EvaluateTargetHealth": false
                         }
                     }
-                }
             }]
         }'
     exit 1
