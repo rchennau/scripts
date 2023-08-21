@@ -30,7 +30,7 @@ else
                     "Type": "CNAME",
                     "TTL":300,
                     "ResourceRecordSet": [{
-                        "AliasTarget": "'$cname_record_value'"
+                        "Value": "'$cname_record_value'"
                     }]
                 }
             }]
@@ -46,10 +46,10 @@ aws route53 change-resource-record-sets \
         "Changes": [{
             "Action": "UPSERT",
             "ResourceRecordSet": {
-                "Name": "'"$RECORD_NAME"'",
+                "Name": "'$RECORD_NAME'",
                 "Type": "A",
                 "TTL": '$TTL',
-                "ResourceRecords": [{"Value": "'"$PUBLIC_IP"'"}]
+                "ResourceRecords": [{"Value": "'$PUBLIC_IP'"}]
             }
         }]
     }' 
