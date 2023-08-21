@@ -26,7 +26,7 @@ else
             "Changes":[{
                 "Action": "UPSERT",
                 "ResourceRecordSet": {
-                    "Name": "'$CNAME_RECORD_VALUE'",
+                    "Name": "'$CNAME_RECORD'",
                     "Type": "CNAME",
                     "TTL": "300",
                     "AliasTarget": {
