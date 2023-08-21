@@ -30,7 +30,7 @@ else
                     "Type": "CNAME",
                     "TTL":300,
                     "ResourceRecordSet": [{
-                        "Value": "'$cname_record_value'"
+                        "AliasTarget": "'$cname_record_value'"
                     }]
                 }
             }]
