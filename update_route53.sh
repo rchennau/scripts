@@ -18,19 +18,23 @@ else
 	# The environment variable is set
 	echo "The cname for runpod.io web instance is $RUNPOD_POD_ID"
     cname_record_value=$RUNPOD_POD_ID+"-3001.proxy.runpod.net"
+    echo $cname_record_value
     # Create the change set
-    aws route53 change-resource-record-sets \
+    aws --debug route53 change-resource-record-sets \
         --hosted-zone-id $HOSTED_ZONE_ID \
         --change-batch '{
             "Changes":[{
                 "Action": "UPSERT",
                 "ResourceRecordSet": {
-                    "Name": "'$CNAME_NAME'",
+                    "Name": "'$CNAME_RECORD_VALUE'",
                     "Type": "CNAME",
                     "TTL": 300,
-                    "ResourceRecords" : [{
-                        "Value": "'$cname_record_value'"
-                    }]
+                    "AliasTarget": {
+                        "ResourceRecords" : [{
+                            "HostedZoneId": "$HOSTED_ZONE_ID",
+                            "DNSName": "$cname_record_value",
+                        }]
+                    }
                 }
             }]
         }'
