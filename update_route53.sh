@@ -32,7 +32,7 @@ else
                     "AliasTarget": {
                         "ResourceRecords" : [{
                             "HostedZoneId": "'$HOSTED_ZONE_ID'",
-                            "DNSName": "'$cname_record_value'",
+                            "DNSName": "'$cname_record_value'"
                         }]
                     }
                 }
