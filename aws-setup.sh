@@ -42,6 +42,10 @@ else
                         		echo "Linux variant: $linux_variant.  Begin Download"
                         		wget "$debian_link"
                         		echo "Begin installation"
+								if command -v unzip &>/dev/null; then
+									echo "installing unzip."
+									sudo apt-get -y install unzip
+								fi
                         		unzip "$debian_link"
 								sudo ./aws/install
 								echo "awscli installed"
