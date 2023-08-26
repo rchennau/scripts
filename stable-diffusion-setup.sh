@@ -14,7 +14,7 @@ linux_variant=""
 		echo "Warning: Running as root user."
     else
         priveleged_user="sudo apt-get"
-		echo "INFO: Running as $(id -F)."
+		echo "INFO: Running as $(id -u)."
 	fi
 
 # Check if we are running on a G5 instance type

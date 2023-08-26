@@ -10,8 +10,7 @@
 #clone_dir="stable-diffusion-webui"
 
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram --opt-split-attention"
-# export COMMANDLINE_ARGS="--api --listen --no-progressbar-hiding --enable-insecure-extension-access --gradio-auth=Richard:akc2003 --autolaunch --opt-sub-quad-attention --no-hashing --xformers --opt-channelslast --disable-safe-unpickle"
-export COMMANDLINE_ARGS="--api --port=7860 --listen --no-progressbar-hiding --enable-insecure-extension-access --share --autolaunch --opt-sub-quad-attention --no-hashing --opt-channelslast --disable-safe-unpickle --cors-allow-origins=https://stable.chennault.net:7860"
+export COMMANDLINE_ARGS="--listen --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --share --enable-insecure-extension-access --enable-console-prompts --cors-allow-origins=http://stable.chennault.net,http://home.chennault.net --no-hashing --opt-sdp-attention"
 
 # python3 executable
 #python_cmd="python3"
@@ -37,11 +36,13 @@ export COMMANDLINE_ARGS="--api --port=7860 --listen --no-progressbar-hiding --en
 
 # Fixed git commits
 #export STABLE_DIFFUSION_COMMIT_HASH=""
-#export TAMING_TRANSFORMERS_COMMIT_HASH=""
 #export CODEFORMER_COMMIT_HASH=""
 #export BLIP_COMMIT_HASH=""
 
 # Uncomment to enable accelerated launch
 #export ACCELERATE="True"
+
+# Uncomment to disable TCMalloc
+#export NO_TCMALLOC="True"
 
 ###########################################
