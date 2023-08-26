@@ -58,9 +58,14 @@ else
                                         cd /workspace/
                                         git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git 
                                     else
-                                        mkdir /workspace/
+                                        $priveleged_user mkdir /workspace/
                                         cd /workspace/
                                         git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+                                        $priveleged_user install python3.8-venv
+                                        $priveleged_user install google-perftools libgoogle-perftools-dev
+                                        /workspace/stable-diffusion-webui/webui.sh
+
+
                                     fi
                     		else
                     			echo "OS $linux_variant is currently unsupported"
