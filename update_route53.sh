@@ -24,7 +24,7 @@ else
 fi
     
 # Running someplace without an IP?  We got you
-# Check if we are runnig on RUNPOD.IO container
+# Check if we are runnig on RUNPOD.IO  service
 if [ -z "$RUNPOD_POD_ID" ]; then
 	# The environment variable is not set
 	echo "The environment variable is not set."
@@ -70,4 +70,3 @@ aws route53 change-resource-record-sets \
 sleep 5
 # echo "The new IP address is"; aws route53 list-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" --output text
 result=$(aws route53 list-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" --output text)  && echo "The A record updated successfuly tohost $result"
-
