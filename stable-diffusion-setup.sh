@@ -21,7 +21,7 @@ linux_variant=""
 count=$(aws ec2 describe-instances --query 'length(Reservations[*].Instances[*])')
 for ((i=1; i<=$count; i++))
 do
-    instance_type=$(aws ec2 describe-instances --instance-ids <instance_id_$i> --query 'Reservations[].Instances[].InstanceType' --output text)
+    instance_type=$(aws ec2 describe-instances --instance-ids --query 'Reservations[].Instances[].InstanceType' --output text)
     if [[ $instance_type == g5* ]]; then
         echo "EC2 instance $i is a g5 type: $instance_type"
         instance_id=$(aws ec2 describe-instances --query 'Reservations[*].Instances[?InstanceType==`g5`].InstanceId' --output text)
