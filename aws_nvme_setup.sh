@@ -24,14 +24,11 @@ else
 	echo "File system $fs_type found on device:$device"
 fi 
     if [ "$fs_type" = "xfs" ]; then
-		if [ -n "$sd_mount" ]; then
+		if [ -z "$sd_mount" ]; then
 			echo "$fs_type on $device is not mounted.  Mounting"
 			if sudo mount $device $sd_mount; then 
 				sudo chown $id:$id $sd_mount
 				echo "Mounted $fs_type on $device is mounted at $sd_mount" 
-			else
-				echo "Unable to mount $fs_type on $device. Exiting"
-				exit 1
 			fi	
     else
 		echo "Mount point not provided.  Skipping moutn process."
