@@ -24,7 +24,7 @@ do
     instance_type=$(aws ec2 describe-instances --instance-ids --query 'Reservations[].Instances[].InstanceType' --output text)
     if [[ $instance_type == g5* ]]; then
         echo "EC2 instance $i is a g5 type: $instance_type"
-        instance_id=$(aws ec2 describe-instances --query 'Reservations[*].Instances[?InstanceType==`g5`].InstanceId' --output text)
+        instance_id=$(aws ec2 describe-instances --query 'Reservations[].Instances[?contains(InstanceType, `g5.`)].InstanceId' --output text
     else
         echo "EC2 instance $i is not a g5 type"
         exit 1
@@ -64,8 +64,6 @@ else
                                         $priveleged_user install python3.8-venv
                                         $priveleged_user install google-perftools libgoogle-perftools-dev
                                         /workspace/stable-diffusion-webui/webui.sh
-
-
                                     fi
                     		else
                     			echo "OS $linux_variant is currently unsupported"
