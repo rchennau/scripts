@@ -2,9 +2,10 @@
 
 # set device name
 device=/dev/nvme1n1	
+mount==/workspace
 
 fs_type=$(df --output=fstype "$device" | tail -n 1)
-    # fs_type=$(blkid -s TYPE -o value $device)
+
 if [ -n "$fs_type" ]; then
     echo "ERROR: no file system. Check returned $fs_type for device type $device"
 	echo "Trying to create XFS on $device ."
@@ -18,8 +19,14 @@ if [ -n "$fs_type" ]; then
 else
     if [ "$fs_type" = "xfs" ]; then
     	echo "File system $fs_type found on device:$device"
+		if [ -n "$mount" ]; then
+			echo "$fs_type on $device is not mounted.  Mounting"
+			sudo mount $device /workspace
+			sudo chown ubuntu:ubuntu /workspace
+		fi	
+
     else
 		echo "Expected file system type XFS.  Got $fs_type on $device.  Exiting"
         exit 1
-    fi
 fi
+echo "$fs_type on $device is present and mounted."
