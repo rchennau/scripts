@@ -30,11 +30,19 @@ fi
 				sudo chown $id:$id $sd_mount
 				echo "Mounted $fs_type on $device is mounted at $sd_mount" 
     		else
-				echo "Mount point not provided.  Skipping moutn process."
-		fi
-	else
-		echo "Expected file system type XFS.  Got $fs_type on $device.  Exiting"
-    	exit 1
+				# add code to read for answer and continue
+				echo "$fs_type on $device is not XFS. Attempt to overwrite?"
+				# Create XFS file system	
+				if sudo mkfs -t xfs "$device"; then
+        			fs_type="xfs"
+					echo "File system $fs_type created on device:$device"
+					if sudo mount $device $sd_mount; then 
+						sudo chown $id:$id $sd_mount
+						echo "Mounted $fs_type on $device is mounted at $sd_mount" 
+					fi
+				else 
+					echo "Unable to create XFS file sysetm on $device.  Exiting"
+					exit 1
 fi
 
 echo "$fs_type on $device is present and mounted."
