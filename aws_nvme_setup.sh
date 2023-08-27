@@ -29,13 +29,12 @@ fi
 			if sudo mount $device $sd_mount; then 
 				sudo chown $id:$id $sd_mount
 				echo "Mounted $fs_type on $device is mounted at $sd_mount" 
-			fi	
-    else
-		echo "Mount point not provided.  Skipping moutn process."
-	fi
-else
-	echo "Expected file system type XFS.  Got $fs_type on $device.  Exiting"
-    exit 1
+    		else
+				echo "Mount point not provided.  Skipping moutn process."
+		fi
+	else
+		echo "Expected file system type XFS.  Got $fs_type on $device.  Exiting"
+    	exit 1
 fi
 
 echo "$fs_type on $device is present and mounted."
