@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # set device name
-device=/dev/nvme1n1	
+device=/dev/nvme1n1
 sd_mount=/workspace
 id=$(id -u)
 
 fs_type=$(df --output=fstype "$device" | tail -n 1)
-
+echo $fs_type 
 if [ -n "$fs_type" ]; then
     echo "ERROR: no file system. Check returned $fs_type for device type $device"
 	echo "Trying to create XFS on $device ."
