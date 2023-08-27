@@ -6,15 +6,16 @@ OS=$(uname)
 sd_mount=/workspace
 id=$(id -u)
 linux_variant=""
+priveledge_user=""
 
 # package download links
 
 # Check if the user is root
 	if [[ "$(id -u)" == "0" ]]; then
-        priveleged_user="apt-get"
+        priveleged_user="Warning: running as root: "
 		echo "Warning: Running as root user."
     else
-        priveleged_user="sudo apt-get"
+        priveleged_user="sudo"
 		echo "INFO: Running as $(id -u)."
 	fi
 
@@ -53,7 +54,7 @@ else
                         		linux_variant="Debian"
                         		# echo "Linux variant: $linux_variant.  Begin Download"
                                 echo "Begin installation"
-                            	$priveleged_user install git
+                            	$priveleged_user apt-get install git
                                 if command -v git &>/dev/null; then
                                     echo "git installed.  Continuing installation"
                                 fi
@@ -72,8 +73,17 @@ else
                 cd $sd_mount
                 git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
                 # SD works with python3.8 but newer extensions like 3.10.  On Ubuntu that is a heavy refactor 
-                $priveleged_user install python3.8-venv
-                $priveleged_user install google-perftools libgoogle-perftools-dev
+                $priveleged_user apt-get install python3.8-venv
+                $priveleged_user apt-get install google-perftools libgoogle-perftools-dev
+                # Attempt ptyhon3.10 install 
+                $priveledge_user add-apt-repository ppa:deadsnakes/ppa
+                $priveledge_user apt-get update
+                $priveledge_user apt-get install python3.10
+                $priveledge_user update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
+                $priveledge_user update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 2
+                # Add code to fix pip now that python3.10 is installed
+                $priveledge_user apt remove --purge python3-apt
+
                 /workspace/stable-diffusion-webui/webui.sh
             fi
 		;;
