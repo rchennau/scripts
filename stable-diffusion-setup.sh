@@ -3,7 +3,8 @@
 #Detect operating system platform
 OS=$(uname)
 # echo "Operating System : $OS"
-
+sd_mount=/workspace
+id=$(id -u)
 linux_variant=""
 
 # package download links
@@ -53,24 +54,28 @@ else
                         		# echo "Linux variant: $linux_variant.  Begin Download"
                                 echo "Begin installation"
                             	$priveleged_user install git
-                               if command -v git &>/dev/null; then
-                                    if [ -d /workspace]; then 
-                                        cd /workspace/
-                                        git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git 
-                                    else
-                                        $priveleged_user mkdir /workspace/
-                                        cd /workspace/
-                                        git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
-                                        $priveleged_user install python3.8-venv
-                                        $priveleged_user install google-perftools libgoogle-perftools-dev
-                                        /workspace/stable-diffusion-webui/webui.sh
-                                    fi
+                                if command -v git &>/dev/null; then
+                                    echo "git installed.  Continuing installation"
+                                fi
                     		else
                     			echo "OS $linux_variant is currently unsupported"
                     			exit 1
 							fi
                    fi
 			fi
+
+            if [ -d $sd_mount]; then 
+                cd $sd_mount
+                git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git 
+            else
+                $priveleged_user mkdir /workspace/
+                cd $sd_mount
+                git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+                # SD works with python3.8 but newer extensions like 3.10.  On Ubuntu that is a heavy refactor 
+                $priveleged_user install python3.8-venv
+                $priveleged_user install google-perftools libgoogle-perftools-dev
+                /workspace/stable-diffusion-webui/webui.sh
+            fi
 		;;
 		n|N|no|No)
             echo "exiting"
