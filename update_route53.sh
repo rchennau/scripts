@@ -6,7 +6,7 @@ HOSTED_ZONE_ID=""
 RECORD_NAME="stable.chennault.net."
 CNAME_RECORD="runpod.chennault.net"
 TTL=60
-RUNPOD_POD_ID="$RUNPOD_POD_ID"
+RUNPOD_POD_ID=$RUNPOD_POD_ID
 
 # Get the public IP address of the dynamic host
 PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
@@ -15,7 +15,7 @@ PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
 HOSTED_ZONE_ID=$(aws route53 list-hosted-zones --query 'HostedZones[?Name == `'$DOMAIN_NAME'`].Id' --output text | cut -d'/' -f3)
 
 # Ask user for DOMAIN
-read -t 5 -p "Enter your domain name: [$DOMAIN_NAME] " answer
+read -r -t 5 -p "Enter your domain name: [$DOMAIN_NAME] " answer
 if [ -z "$answer" ]; then
     echo "Using default domain name $DOMAIN_NAME"
 
@@ -32,10 +32,10 @@ else
 	# The environment variable is set
 	echo "The cname for runpod.io web instance is $RUNPOD_POD_ID"
     cname_record_value=$RUNPOD_POD_ID."-3001.proxy.runpod.net"
-    echo $cname_record_value
+    echo "$cname_record_value"
     # Create the change set
     aws --debug route53 change-resource-record-sets \
-        --hosted-zone-id $HOSTED_ZONE_ID \
+        --hosted-zone-id "$HOSTED_ZONE_ID" \
         --change-batch '{
             "Changes":[{
                 "Action": "UPSERT",

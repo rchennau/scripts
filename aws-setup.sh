@@ -26,7 +26,7 @@ else
 		# sudo apt-get -y install unzip
 		$priveleged_user -y install unzip 
 	fi
-	read -t 5 -p "Do you want to install aws cli (yes/no): " answer
+	read -r -t 5 -p "Do you want to install aws cli (yes/no): " answer
 	    if [[ -z "$answer" ]]; then
 	    	answer="yes"
     	fi

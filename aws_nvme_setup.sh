@@ -6,7 +6,7 @@ sd_mount=/workspace
 id=$(id -u)
 
 fs_type=$(df --output=fstype "$device" | tail -n 1)
-echo $fs_type 
+echo "$fs_type"
 if [ -z "$fs_type" ]; then
     echo "ERROR: no file system. Check returned $fs_type for device type $device"
     echo "Trying to create XFS on $device ."
@@ -28,17 +28,17 @@ if [ "$fs_type" = "xfs" ]; then
     if [ -z "$sd_mount" ]; then
         echo "$fs_type on $device is not mounted. Mounting"
         if sudo mount $device $sd_mount; then 
-            sudo chown $id:$id $sd_mount
+            sudo chown "$id:$id $sd_mount"
             echo "Mounted $fs_type on $device is mounted at $sd_mount" 
         else
             # add code to read for answer and continue
             echo "$fs_type on $device is not XFS. Attempt to overwrite?"
             # Create XFS file system    
             if sudo mkfs -t xfs "$device"; then
-                fs_type="xfs"
+                fs_type=$(df --output=fstype "$device" | tail -n 1) 
                 echo "File system $fs_type created on device:$device"
                 if sudo mount $device $sd_mount; then 
-                    sudo chown $id:$id $sd_mount
+                    sudo chown "$id:$id $sd_mount"
                     echo "Mounted $fs_type on $device is mounted at $sd_mount" 
                 fi
             else 
