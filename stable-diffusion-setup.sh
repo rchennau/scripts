@@ -26,7 +26,7 @@ do
     instance_type=$(aws ec2 describe-instances --instance-ids --query 'Reservations[].Instances[].InstanceType' --output text)
     if [[ $instance_type == g5* ]]; then
         echo "EC2 instance $i is a g5 type: $instance_type"
-        instance_id=$(aws ec2 describe-instances --query 'Reservations[].Instances[?contains(InstanceType, `g5.`)].InstanceId' --output text
+	instance_id=$(aws ec2 describe-instances --query 'Reservations[].Instances[?contains(InstanceType, `g5.`)].InstanceId' --output text)
     else
         echo "EC2 instance $i is not a g5 type"
         exit 1
