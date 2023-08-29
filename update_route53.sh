@@ -9,27 +9,27 @@ PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
 SILENT_MODE=""
 while getopts ":h:r:t:z:a:s" opt; do
     case $opt in
-     h) echo "Usage: ${OPTARG}"
-     ;;
-     r) RECORD_NAME="$OPTARG"
-     ;;
-     t) TTL="$OPTARG"
-     ;;
-     z) HOSTED_ZONE_ID="$OPTARG"
-     ;;
-     a) PUBLIC_IP="$OPTARG"
-     ;;
-     s) SILENT_MODE="true"
-     ;;
+    h) echo "Usage: ${OPTARG}"
+    ;;
+    r) RECORD_NAME="$OPTARG"
+    ;;
+    t) TTL="$OPTARG"
+    ;;
+    z) HOSTED_ZONE_ID="$OPTARG"
+    ;;
+    a) PUBLIC_IP="$OPTARG"
+    ;;
+    s) SILENT_MODE="true"
+    ;;
      *) echo "Unknown option $OPTARG"
-     esac
+    esac
 done
 if [ -z $SILENT_MODE ]
 then
     echo "Silent mode not set"
     read -r -t 5 -p "Set domain [$RECORD_NAME]: " answer
     if [ -z "$answer" ]; then
-        echo "RECORD_NAME: $answer not entered.  Using default: $RECORD_NAME"
+        echo "Using default: $RECORD_NAME"
     fi
     RECORD_NAME="$answer"
 else
@@ -41,8 +41,25 @@ else
     fi
 fi
 
+# Are we logged into AWS?  If so verify with user they wish to continue with credentials presented
+if aws sts get-caller-identity --no-cli-auto-prompt &> /dev/null
+then
+    read -r -t 5 -p "Loggined into AWS as $(aws sts get-caller-identity --output text --query 'UserId' --no-cli-auto-prompt) continue [yes/no]: " answer
+    if [ "$answer" = "yes" ]
+    then
+        echo "OK"
+    else 
+        echo "Exiting."
+        exit 1
+    fi
+
+else
+    echo "Not logged into AWS"
+    exit 1
+fi
+
 # Update the A record with the new IP address
-aws route53 change-resource-record-sets \
+aws route53 --no-cli-auto-prompt change-resource-record-sets \
     --hosted-zone-id "$HOSTED_ZONE_ID" \
     --change-batch '{
         "Changes": [{
