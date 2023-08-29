@@ -22,31 +22,30 @@ if [ -z "$fs_type" ]; then
 
 else
     echo "File system $fs_type found on device:$device"
-fi 
-
+fi
 if [ "$fs_type" = "xfs" ]; then
-    if [ -z "$sd_mount" ]; then
+	if [ -z "$sd_mount" ]; then
         echo "$fs_type on $device is not mounted. Mounting"
-        if sudo mount $device $sd_mount; then 
-            sudo chown "$id:$id $sd_mount"
-            echo "Mounted $fs_type on $device is mounted at $sd_mount" 
-        else
-            # add code to read for answer and continue
-            echo "$fs_type on $device is not XFS. Attempt to overwrite?"
-            # Create XFS file system    
-            if sudo mkfs -t xfs "$device"; then
-                fs_type=$(df --output=fstype "$device" | tail -n 1) 
-                echo "File system $fs_type created on device:$device"
-                if sudo mount $device $sd_mount; then 
-                    sudo chown "$id:$id $sd_mount"
-                    echo "Mounted $fs_type on $device is mounted at $sd_mount" 
-                fi
-            else 
+        	if sudo mount $device $sd_mount; then 
+            		sudo chown "$id:$id $sd_mount"
+            		echo "Mounted $fs_type on $device is mounted at $sd_mount"
+		fi 
+	fi
+else
+	# add code to read for answer and continue
+	echo "$fs_type on $device is not XFS. Attempt to overwrite?"
+	fs_type="xfs"
+       	# Create XFS file system    
+      	if sudo mkfs -t xfs "$device"; then
+               	fs_type=$(df --output=fstype "$device" | tail -n 1) 
+               	echo "File system $fs_type created on device:$device"
+               	if sudo mount $device $sd_mount; then 
+               		sudo chown "$id:$id" "$sd_mount"
+               		echo "Mounted $fs_type on $device is mounted at $sd_mount" 
+		fi
+         else 
                 echo "Unable to create XFS file system on $device. Exiting"
                 exit 1
-            fi
-        fi
-    else
-        echo "$fs_type on $device is present and mounted."
-    fi
+	fi
 fi
+echo "$fs_type on $device is present and mounted."
