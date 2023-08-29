@@ -82,13 +82,28 @@ fi
 if [ -z "$RUNPOD_POD_ID" ]; then
 	# The environment variable is not set
 	echo "The environment variable is not set."
+    echo "Using $PUBLIC_IP to set A record"
+# Update the A record with the new IP address
+aws route53 --no-cli-auto-prompt change-resource-record-sets \
+    --hosted-zone-id "$HOSTED_ZONE_ID" \
+    --change-batch '{
+        "Changes": [{
+            "Action": "UPSERT",
+            "ResourceRecordSet": {
+                "Name": "'$RECORD_NAME'",
+                "Type": "A",
+                "TTL": '$TTL',
+                "ResourceRecords": [{"Value": "'$PUBLIC_IP'"}]
+            }
+        }]
+    }'
 else
 	# The environment variable is set
 	echo "The cname for runpod.io web instance is $RUNPOD_POD_ID"
     cname_record_value=$RUNPOD_POD_ID."-3001.proxy.runpod.net"
     echo "$cname_record_value"
     # Create the change set
-    aws --debug route53 change-resource-record-sets \
+    aws --debug route53 --no-cli-auto-prompt change-resource-record-sets \
         --hosted-zone-id "$HOSTED_ZONE_ID" \
         --change-batch '{
             "Changes":[{
@@ -106,21 +121,7 @@ else
     exit 1
 fi
 
-echo "Using $PUBLIC_IP to set A record"
-# Update the A record with the new IP address
-aws route53 --no-cli-auto-prompt change-resource-record-sets \
-    --hosted-zone-id "$HOSTED_ZONE_ID" \
-    --change-batch '{
-        "Changes": [{
-            "Action": "UPSERT",
-            "ResourceRecordSet": {
-                "Name": "'$RECORD_NAME'",
-                "Type": "A",
-                "TTL": '$TTL',
-                "ResourceRecords": [{"Value": "'$PUBLIC_IP'"}]
-            }
-        }]
-    }'
+
 sleep 5
 # echo "The new IP address is"; aws route53 list-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" --output text
 result=$(aws route53 list-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" --output text)  && echo "The A record updated successfuly tohost $result"
