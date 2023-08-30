@@ -15,9 +15,9 @@ RUNPOD_POD_ID=$RUNPOD_POD_ID
 PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
 SILENT_MODE=""
 if [[ $# -eq 1 && $1 == "-h" ]]; then
-    if [[ =z "$2" ]]; then
+    if [[ -z "$2" ]]; then
         echo  "Flag '-h' privided with no arguments.  Setting to usage"
-        arguement="usage" 
+        argument="usage" 
     else
         argument=$2
     fi
@@ -159,4 +159,3 @@ aws route53 list-resource-record-sets \
 	--hosted-zone-id $HOSTED_ZONE_ID \
 	--query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" \
 	--output text
-aws route53 list-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" --output text
