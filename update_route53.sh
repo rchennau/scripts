@@ -20,7 +20,7 @@ if [[ $# -eq 1 && $1 == "-h" ]]; then
     fi
 fi 
 
-if [[ $# -eq 1 && $1 == "-i" ]]; then
+elif [[ $# -eq 1 && $1 == "-i" ]]; then
     if [[ -z "$2" ]]; then
     set -- "-i interactive"
     fi
