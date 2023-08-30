@@ -99,10 +99,10 @@ else
                         if command -v pip --version &>dev/null; then
                             echo "Upgrade to python3.10 failed"
                         fi
-                    fi
-		fi
+                fi
+fi
                     # run webui.sh and cross fingers!
-                    $sd_mount/stable-diffusion-webui/webui.sh
+                $sd_mount/stable-diffusion-webui/webui.sh
 		;;
 		n|N|no|No)
             echo "exiting"
@@ -111,6 +111,6 @@ else
         *)
             echo "Invalid input.  Please enter 'yes' or 'no'."
             exit 1
-	;;
+			;;
         esac
 fi
