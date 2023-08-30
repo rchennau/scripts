@@ -18,7 +18,7 @@ fi
 
 if [[ $# -eq 1 && $1 == "-i" ]]; then
     if [[ -z "$2" ]]; then
-        set -- "-i interactive"
+        set -- "$1 interactive"
     fi
 fi
 if [[ $# -eq 0 ]]; then
@@ -73,7 +73,7 @@ while getopts "h:r:t:z:a:i" opt; do
         PUBLIC_IP="$OPTARG"
         ;;
     i) 
-        INTERACTIVE_MODE="true"
+        echo "Usage: update_route53.sh [OPTION] [VALUE]" 
         ;;
     *) 
         echo "Unknown option $OPTARG"
@@ -84,6 +84,7 @@ done
 
 # Ask a lot of questions
     echo "Entering interactive mode"
+        echo "Usage: update_route53.sh [OPTION] [VALUE]" 
     read -r -t 5 -p "Set domain [$RECORD_NAME]: " answer
     if [ -z "$answer" ]; then
         echo "Using default: $RECORD_NAME"
