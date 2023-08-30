@@ -14,14 +14,12 @@ if [[ $# -eq 1 && $1 == "-h" ]]; then
     if [[ -z "$2" ]]; then
         echo  "Flag '-h' provided with no arguments.  Setting to usage"
         set -- "$1 usage"
-    else
-        argument=$2
     fi
 fi
 
 if [[ $# -eq 1 && $1 == "-i" ]]; then
     if [[ -z "$2" ]]; then
-    set -- "-i interactive"
+        set -- "-i interactive"
     else
         aws route53 --no-cli-auto-prompt change-resource-record-sets \
     	    --hosted-zone-id $HOSTED_ZONE_ID \
@@ -42,7 +40,6 @@ if [[ $# -eq 1 && $1 == "-i" ]]; then
         		}
 		]
     }'
-
     echo "The new IP address is : "
     aws route53 list-resource-record-sets \
 	    --hosted-zone-id $HOSTED_ZONE_ID \
