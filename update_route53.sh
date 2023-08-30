@@ -18,6 +18,7 @@ if [[ $# -eq 1 && $1 == "-h" ]]; then
     if [[ -z "$2" ]]; then
         echo  "Flag '-h' privided with no arguments.  Setting to usage"
         argument="usage" 
+        argument=$2
     else
         argument=$2
     fi
