@@ -21,6 +21,7 @@ while getopts ":h:r:t:z:a:s" opt; do
     r) RECORD_NAME="$OPTARG"
     ;;
     t) TTL="$OPTARG"
+	 TTL=600
     ;;
     z) HOSTED_ZONE_ID="$OPTARG"
     ;;
@@ -70,41 +71,51 @@ HOSTED_ZONE_ID=$(aws route53 list-hosted-zones --query 'HostedZones[?Name == `'$
 
 # Ask user for DOMAIN
 read -r -t 5 -p "Enter your domain name: [$DOMAIN_NAME] " answer
-if [ -z "$answer" ]; then
-    echo "Using default domain name $DOMAIN_NAME"
-
-else
-    DOMAIN_NAME="$answer"
-    echo "$DOMAIN_NAME"
+if [ -n "$answer" ]; then
+	echo "The answer was : $answer"
+	DOMAIN_NAME=$answer
+	echo "Using default domain name $DOMAIN_NAME"
+else	
+    echo "Why are we here: $DOMAIN_NAME"
 fi
     
 # Running someplace without an IP?  We got you
 # Check if we are runnig on RUNPOD.IO  service
-if [ -n "$RUNPOD_POD_ID" ]; then
+if [ -z "$RUNPOD_POD_ID" ]; then
 	# The environment variable is not set
 	echo "RUNPOD_POD_ID variable is not set."
+	PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
     	echo "Using $PUBLIC_IP to set A record"
+	RECORD_NAME="stable.chennault.net."
+    	echo "Using $RECORD_NAME to set A record"
+    	echo "HOSTED ZONE ID = $HOSTED_ZONE_ID"
 # Update the A record with the new IP address
-aws route53 --no-cli-auto-prompt change-resource-record-sets \
-    --hosted-zone-id "$HOSTED_ZONE_ID" \
-    --change-batch '{
-        "Changes": [{
-            "Action": "UPSERT",
-            "ResourceRecordSet": {
-                "Name": "'$RECORD_NAME'",
-                "Type": "A",
-                "TTL": '$TTL',
-                "ResourceRecords": [{"Value": "'$PUBLIC_IP'"}]
-            }
-        }]
+	aws route53 --no-cli-auto-prompt change-resource-record-sets \
+    	--hosted-zone-id $HOSTED_ZONE_ID \
+    	--change-batch '{
+        	"Changes": [
+			{
+            			"Action": "UPSERT",
+            			"ResourceRecordSet": {
+                			"Name": "'$RECORD_NAME'",
+                			"Type": "A",
+                			"TTL": '$TTL',
+                			"ResourceRecords": [
+						{
+							"Value": "'$PUBLIC_IP'"
+						}
+					]
+            			}
+        		}
+		]
     }'
 else
 	# The environment variable is set
 	echo "The cname for runpod.io web instance is $RUNPOD_POD_ID"
-    cname_record_value=$RUNPOD_POD_ID."-3001.proxy.runpod.net"
-    echo "$cname_record_value"
-    # Create the change set
-    aws --debug route53 --no-cli-auto-prompt change-resource-record-sets \
+    	cname_record_value=$RUNPOD_POD_ID."-3001.proxy.runpod.net"
+    	echo "$cname_record_value"
+    	# Create the change set
+    	aws route53 --no-cli-auto-prompt change-resource-record-sets \
         --hosted-zone-id "$HOSTED_ZONE_ID" \
         --change-batch '{
             "Changes":[{
@@ -123,6 +134,9 @@ else
 fi
 
 
-sleep 5
-# echo "The new IP address is"; aws route53 list-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" --output text
-result=$(aws route53 list-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" --output text)  && echo "The A record updated successfuly tohost $result"
+echo "The new IP address is : "
+aws route53 list-resource-record-sets \
+	--hosted-zone-id $HOSTED_ZONE_ID \
+	--query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" \
+	--output text
+aws route53 list-resource-record-sets --hosted-zone-id $HOSTED_ZONE_ID --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" --output text
