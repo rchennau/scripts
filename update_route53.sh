@@ -17,6 +17,7 @@ SILENT_MODE=""
 if [[ $# -eq 1 && $1 == "-h" ]]; then
     echo  "Flag '-h' privided with no arguments.  Setting to usage"
     argument="usage"
+    $2=$argument
 else
     argument=$2
 fi
