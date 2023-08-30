@@ -22,8 +22,7 @@ if [[ $# -eq 1 && $1 == "-h" ]]; then
         argument=$2
     fi
  fi 
- if [[ $# -eq 1 && $1 == "-i"]]; then
- 
+if [[ $# -eq 1 && $1 == "-i" ]]; then
     if [[ -z "$2" ]]; then
     set -- "-i interactive"
     fi
