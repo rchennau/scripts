@@ -75,14 +75,15 @@ if [ -z "$answer" ]; then
 
 else
     DOMAIN_NAME="$answer"
+    echo "$DOMAIN_NAME"
 fi
     
 # Running someplace without an IP?  We got you
 # Check if we are runnig on RUNPOD.IO  service
-if [ -z "$RUNPOD_POD_ID" ]; then
+if [ -n "$RUNPOD_POD_ID" ]; then
 	# The environment variable is not set
-	echo "The environment variable is not set."
-    echo "Using $PUBLIC_IP to set A record"
+	echo "RUNPOD_POD_ID variable is not set."
+    	echo "Using $PUBLIC_IP to set A record"
 # Update the A record with the new IP address
 aws route53 --no-cli-auto-prompt change-resource-record-sets \
     --hosted-zone-id "$HOSTED_ZONE_ID" \
