@@ -22,16 +22,22 @@ if [[ $# -eq 1 && $1 == "-h" ]]; then
         argument=$2
     fi
  fi 
-while getopts "h:r:t:z:a:s" opt; do
+ if [[ $# -eq 1 && $1 == "-i"]]; then
+ 
+    if [[ -z "$2" ]]; then
+    set -- "-i interactive"
+    fi
+fi
+while getopts "h:r:t:z:a:i" opt; do
     case $opt in
     h) 
-        echo "Usage: command flags are h, r, t, z, a and s"
-        echo "  -h displays this message"
-        echo "  -r <RECORD_NAME>  example: -r stable.chennault.net"
-        echo "  -t <TTL>  example: -t 60"
-        echo "  -z <HOSTED_ZONE_D>  example: -z Z37WEDFVQ5POLT"
-        echo "  -a <PUBLIC_IP>  example: -a $PUBLIC_IP"
-        echo "  -s <silent>  example: -s silent mode update.  Default is set to silent mode if no command flages are provided"
+        echo "Usage: update_route53.sh [OPTION] [VALUE]" 
+        echo "  -h          displays this message"
+        echo "  -r          <RECORD_NAME>  example: -r stable.chennault.net"
+        echo "  -t          <TTL>  example: -t 60"
+        echo "  -z          <HOSTED_ZONE_D>  example: -z Z37WEDFVQ5POLT"
+        echo "  -a          <PUBLIC_IP>  example: -a $PUBLIC_IP"
+        echo "  -i          use interactive mode 
         exit 1
         ;;
     r) 
@@ -46,14 +52,8 @@ while getopts "h:r:t:z:a:s" opt; do
     a) 
         PUBLIC_IP="$OPTARG"
         ;;
-    s) 
-        SILENT_MODE="true"
-        echo "Silent mode set, using defaults"
-        if [ -z "$RECORD_NAME" ]
-        then
-            echo "Default DOMAIN is not set, exiting"
-            exit 1
-        fi
+    i) 
+        INTERACTIVE_MODE="true"
         ;;
     *) 
         echo "Unknown option $OPTARG"
@@ -61,9 +61,9 @@ while getopts "h:r:t:z:a:s" opt; do
         ;;
     esac
 done
-if [ -z $SILENT_MODE ]
+if [ -z $INTERACTIVE_MODE ]
 then
-    echo "Silent mode not set"
+    echo "Entering interactive mode"
     read -r -t 5 -p "Set domain [$RECORD_NAME]: " answer
     if [ -z "$answer" ]; then
         echo "Using default: $RECORD_NAME"
@@ -72,24 +72,21 @@ then
         echo "No record set.  Exiting" 
         exit 1
     fi
-fi
-
 # Are we logged into AWS?  If so verify with user they wish to continue with credentials presented
-if aws sts get-caller-identity --no-cli-auto-prompt &> /dev/null
-then
-    read -r -t 5 -p "Loggined into AWS as $(aws sts get-caller-identity --output text --query 'UserId' --no-cli-auto-prompt) continue [yes/no]: " answer
-    if [ "$answer" = "yes" ]
+    if aws sts get-caller-identity --no-cli-auto-prompt &> /dev/null
     then
-        echo "OK"
-    else 
-        echo "Exiting."
+        read -r -t 5 -p "Loggined into AWS as $(aws sts get-caller-identity --output text --query 'UserId' --no-cli-auto-prompt) continue [yes/no]: " answer
+        if [ "$answer" = "yes" ]
+        then
+            echo "Proceeeding with user $(aws sts get-caller-identity --output text --query 'UserId' --no-cli-auto-prompt) "
+        else 
+            echo "Exiting."
+            exit 1
+    fi
+    else
+        echo "Not logged into AWS"
         exit 1
     fi
-
-else
-    echo "Not logged into AWS"
-    exit 1
-fi
 
 # Get the hosted zone ID
 HOSTED_ZONE_ID=$(aws route53 list-hosted-zones --query 'HostedZones[?Name == `'$DOMAIN_NAME'`].Id' --output text | cut -d'/' -f3)
