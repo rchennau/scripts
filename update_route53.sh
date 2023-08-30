@@ -45,7 +45,7 @@ if [[ $# -eq 0 ]]; then
 	    --hosted-zone-id $HOSTED_ZONE_ID \
 	    --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" \
 	    --output text )
-    echo "The new IP address is : $AWS_CHECK"
+    echo "Success. A record for $RECORD_NAME set to: $AWS_CHECK"
     exit 1
 fi
 while getopts "h:r:t:z:a:i" opt; do
@@ -148,5 +148,5 @@ if [ "$RUNPOD_POD_ID" ]; then
 	    --hosted-zone-id $HOSTED_ZONE_ID \
 	    --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" \
 	    --output text )
-    echo "The new IP address is : $AWS_CHECK"
+    echo "Success. A record for $RECORD_NAME set to: $AWS_CHECK"
 fi
