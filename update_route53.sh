@@ -20,7 +20,8 @@ fi
 if [[ $# -eq 1 && $1 == "-i" ]]; then
     if [[ -z "$2" ]]; then
         set -- "-i interactive"
-    else
+    fi
+else 
         aws route53 --no-cli-auto-prompt change-resource-record-sets \
     	    --hosted-zone-id $HOSTED_ZONE_ID \
     	    --change-batch '{
