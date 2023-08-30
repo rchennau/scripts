@@ -10,38 +10,35 @@ TTL=60
 
 # Get the public IP address of the dynamic host
 PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
-SILENT_MODE=""
 if [[ $# -eq 1 && $1 == "-h" ]]; then
     if [[ -z "$2" ]]; then
         echo  "Flag '-h' provided with no arguments.  Setting to usage"
-        set -- "-h usage"
+        set -- "$1 usage"
     else
         argument=$2
     fi
+fi
 
 if [[ $# -eq 1 && $1 == "-i" ]]; then
     if [[ -z "$2" ]]; then
     set -- "-i interactive"
     else
-        argument=$2
-    fi
-else
-    aws route53 --no-cli-auto-prompt change-resource-record-sets \
-    	--hosted-zone-id $HOSTED_ZONE_ID \
-    	--change-batch '{
-        	"Changes": [
-			{
+        aws route53 --no-cli-auto-prompt change-resource-record-sets \
+    	    --hosted-zone-id $HOSTED_ZONE_ID \
+    	    --change-batch '{
+            	"Changes": [
+		         	{
             			"Action": "UPSERT",
             			"ResourceRecordSet": {
                 			"Name": "'$RECORD_NAME'",
                 			"Type": "A",
                 			"TTL": '$TTL',
                 			"ResourceRecords": [
-						{
-							"Value": "'$PUBLIC_IP'"
-						}
-					]
-            			}
+						    {
+						    	"Value": "'$PUBLIC_IP'"
+						    }
+					        ]
+            		}
         		}
 		]
     }'
