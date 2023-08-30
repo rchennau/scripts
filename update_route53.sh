@@ -14,7 +14,7 @@ RUNPOD_POD_ID=$RUNPOD_POD_ID
 # Get the public IP address of the dynamic host
 PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
 SILENT_MODE=""
-if [[ $# -eq 1 && $1 -- "-h" ]]; then
+if [[ $# -eq 1 && $1 == "-h" ]]; then
     echo  "Flag '-h' privided with no arguments.  Setting to usage"
     argument="usage"
 else
