@@ -18,11 +18,12 @@ if [[ $# -eq 1 && $1 == "-h" ]]; then
     else
         argument=$2
     fi
-fi 
 
-elif [[ $# -eq 1 && $1 == "-i" ]]; then
+if [[ $# -eq 1 && $1 == "-i" ]]; then
     if [[ -z "$2" ]]; then
     set -- "-i interactive"
+    else
+        argument=$2
     fi
 else
     aws route53 --no-cli-auto-prompt change-resource-record-sets \
