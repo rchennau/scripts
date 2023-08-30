@@ -35,6 +35,12 @@ while getopts "h:r:t:z:a:s" opt; do
         ;;
     s) 
         SILENT_MODE="true"
+        echo "Silent mode set, using defaults"
+        if [ -z "$RECORD_NAME" ]
+        then
+            echo "Default DOMAIN is not set, exiting"
+            exit 1
+        fi
         ;;
     *) 
         echo "Unknown option $OPTARG"
@@ -48,13 +54,9 @@ then
     read -r -t 5 -p "Set domain [$RECORD_NAME]: " answer
     if [ -z "$answer" ]; then
         echo "Using default: $RECORD_NAME"
-    fi
-    RECORD_NAME="$answer"
-else
-    echo "Silent mode set, using defaults"
-    if [ -z "$RECORD_NAME" ]
-    then
-        echo "Default DOMAIN is not set, exiting"
+        RECORD_NAME="$answer"
+    else  
+        echo "No record set.  Exiting" 
         exit 1
     fi
 fi
