@@ -37,7 +37,8 @@ else
 	fs_type="xfs"
        	# Create XFS file system    
       	if sudo mkfs -t xfs "$device"; then
-               	fs_type=$(df --output=fstype "$device" | tail -n 1) 
+               	# fs_type=$(df --output=fstype "$device" | tail -n 1) 
+		fs_type="xfs"
                	echo "File system $fs_type created on device:$device"
                	if sudo mount $device $sd_mount; then 
                		sudo chown "$id:$id" "$sd_mount"
