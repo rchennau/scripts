@@ -16,9 +16,8 @@ PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
 SILENT_MODE=""
 if [[ $# -eq 1 && $1 == "-h" ]]; then
     if [[ -z "$2" ]]; then
-        echo  "Flag '-h' privided with no arguments.  Setting to usage"
-        argument="usage" 
-        argument=$2
+        echo  "Flag '-h' provided with no arguments.  Setting to usage"
+        set -- "usage"
     else
         argument=$2
     fi
