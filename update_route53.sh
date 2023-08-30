@@ -21,11 +21,38 @@ if [[ $# -eq 1 && $1 == "-h" ]]; then
     else
         argument=$2
     fi
- fi 
+fi 
+
 if [[ $# -eq 1 && $1 == "-i" ]]; then
     if [[ -z "$2" ]]; then
     set -- "-i interactive"
     fi
+else
+    aws route53 --no-cli-auto-prompt change-resource-record-sets \
+    	--hosted-zone-id $HOSTED_ZONE_ID \
+    	--change-batch '{
+        	"Changes": [
+			{
+            			"Action": "UPSERT",
+            			"ResourceRecordSet": {
+                			"Name": "'$RECORD_NAME'",
+                			"Type": "A",
+                			"TTL": '$TTL',
+                			"ResourceRecords": [
+						{
+							"Value": "'$PUBLIC_IP'"
+						}
+					]
+            			}
+        		}
+		]
+    }'
+    echo "The new IP address is : "
+    aws route53 list-resource-record-sets \
+	    --hosted-zone-id $HOSTED_ZONE_ID \
+	    --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" \
+	    --output text
+    exit 0
 fi
 while getopts "h:r:t:z:a:i" opt; do
     case $opt in
@@ -60,8 +87,8 @@ while getopts "h:r:t:z:a:i" opt; do
         ;;
     esac
 done
-if [ -z $INTERACTIVE_MODE ]
-then
+
+# Ask a lot of questions
     echo "Entering interactive mode"
     read -r -t 5 -p "Set domain [$RECORD_NAME]: " answer
     if [ -z "$answer" ]; then
