@@ -15,12 +15,13 @@ RUNPOD_POD_ID=$RUNPOD_POD_ID
 PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
 SILENT_MODE=""
 if [[ $# -eq 1 && $1 == "-h" ]]; then
-    echo  "Flag '-h' privided with no arguments.  Setting to usage"
-    $2="usage"
-else
-    argument=$2
-fi
-  
+    if [[ =z "$2" ]]; then
+        echo  "Flag '-h' privided with no arguments.  Setting to usage"
+        arguement="usage" 
+    else
+        argument=$2
+    fi
+ fi 
 while getopts "h:r:t:z:a:s" opt; do
     case $opt in
     h) 
