@@ -16,22 +16,30 @@ PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
 SILENT_MODE=""
 while getopts ":h:r:t:z:a:s" opt; do
     case $opt in
-    h) echo "Usage: ${OPTARG}"
-       echo "Exiting"
-       exit 1
-    ;;
-    r) RECORD_NAME="$OPTARG"
-    ;;
-    t) TTL="$OPTARG"
-	 TTL=600
-    ;;
-    z) HOSTED_ZONE_ID="$OPTARG"
-    ;;
-    a) PUBLIC_IP="$OPTARG"
-    ;;
-    s) SILENT_MODE="true"
-    ;;
-     *) echo "Unknown option $OPTARG"
+    h) 
+        echo "Usage: ${OPTARG}"
+        echo "Exiting"
+        exit 1
+        ;;
+    r) 
+        RECORD_NAME="$OPTARG"
+        ;;
+    t) 
+        TTL="$OPTARG"
+        ;;
+    z) 
+        HOSTED_ZONE_ID="$OPTARG"
+        ;;
+    a) 
+        PUBLIC_IP="$OPTARG"
+        ;;
+    s) 
+        SILENT_MODE="true"
+        ;;
+    *) 
+        echo "Unknown option $OPTARG"
+        exit 1
+        ;;
     esac
 done
 if [ -z $SILENT_MODE ]
