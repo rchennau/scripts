@@ -25,8 +25,13 @@ if [[ $# -eq 1 && $1 == "-h" ]]; then
 while getopts "h:r:t:z:a:s" opt; do
     case $opt in
     h) 
-        echo "Usage: ${OPTARG}"
-        echo "Exiting"
+        echo "Usage: command flags are h, r, t, z, a and s"
+        echo "  -h displays this message"
+        echo "  -r <RECORD_NAME>  example: -r stable.chennault.net"
+        echo "  -t <TTL>  example: -t 60"
+        echo "  -z <HOSTED_ZONE_D>  example: -z Z37WEDFVQ5POLT"
+        echo "  -a <PUBLIC_IP>  example: -a $PUBLIC_IP"
+        echo "  -s <silent>  example: -s silent mode update.  Default is set to silent mode if no command flages are provided"
         exit 1
         ;;
     r) 
