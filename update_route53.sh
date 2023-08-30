@@ -14,7 +14,7 @@ RUNPOD_POD_ID=$RUNPOD_POD_ID
 # Get the public IP address of the dynamic host
 PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
 SILENT_MODE=""
-while getopts ":h:r:t:z:a:s" opt; do
+while getopts "h:r:t:z:a:s" opt; do
     case $opt in
     h) 
         echo "Usage: ${OPTARG}"
