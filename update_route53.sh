@@ -12,7 +12,6 @@ TTL=60
 PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
 if [[ $# -eq 1 && $1 == "-h" ]]; then
     if [[ -z "$2" ]]; then
-        echo  "Flag '-h' provided with no arguments.  Setting to usage"
         set -- "$1 usage"
     fi
 fi
@@ -21,6 +20,7 @@ if [[ $# -eq 1 && $1 == "-i" ]]; then
     if [[ -z "$2" ]]; then
         set -- "-i interactive"
     fi
+fi
 if [[ $# -eq 0 ]]; then
         aws route53 --no-cli-auto-prompt change-resource-record-sets \
     	    --hosted-zone-id $HOSTED_ZONE_ID \
