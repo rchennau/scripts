@@ -2,14 +2,11 @@
 
 # Replace with your own values
 HOSTED_ZONE_ID="Z37WEDFVQ5POLT"
-TTL=60
 RECORD_NAME="stable.chennault.net"
 DOMAIN_NAME="chennault.net."
-HOSTED_ZONE_ID=""
-RECORD_NAME="stable.chennault.net."
 CNAME_RECORD="runpod.chennault.net"
-TTL=60
 RUNPOD_POD_ID=$RUNPOD_POD_ID
+TTL=60
 
 # Get the public IP address of the dynamic host
 PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
@@ -47,13 +44,15 @@ else
         		}
 		]
     }'
+
     echo "The new IP address is : "
     aws route53 list-resource-record-sets \
 	    --hosted-zone-id $HOSTED_ZONE_ID \
 	    --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" \
 	    --output text
-    exit 0
+    exit 1
 fi
+
 while getopts "h:r:t:z:a:i" opt; do
     case $opt in
     h) 
@@ -63,7 +62,7 @@ while getopts "h:r:t:z:a:i" opt; do
         echo "  -t          <TTL>  example: -t 60"
         echo "  -z          <HOSTED_ZONE_D>  example: -z Z37WEDFVQ5POLT"
         echo "  -a          <PUBLIC_IP>  example: -a $PUBLIC_IP"
-        echo "  -i          use interactive mode 
+        echo "  -i          use interactive mode"
         exit 1
         ;;
     r) 
