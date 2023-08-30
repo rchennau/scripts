@@ -96,10 +96,10 @@ done
         exit 1
     fi
 # Are we logged into AWS?  If so verify with user they wish to continue with credentials presented
-    if aws sts get-caller-identity --no-cli-auto-prompt &> /dev/null
+    if aws sts get-caller-identity --no-cli-auto-prompt > /dev/null
     then
         read -r -t 5 -p "Loggined into AWS as $(aws sts get-caller-identity --output text --query 'UserId' --no-cli-auto-prompt) continue [yes/no]: " answer
-        if [ "$answer" = "yes" ]
+        if [ "$answer" == "yes" ]
         then
             echo "Proceeeding with user $(aws sts get-caller-identity --output text --query 'UserId' --no-cli-auto-prompt) "
         else 
@@ -126,35 +126,7 @@ fi
     
 # Running someplace without an IP?  We got you
 # Check if we are runnig on RUNPOD.IO  service
-if [ -z "$RUNPOD_POD_ID" ]; then
-	# The environment variable is not set
-	echo "RUNPOD_POD_ID variable is not set."
-	PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
-    	echo "Using $PUBLIC_IP to set A record"
-	RECORD_NAME="stable.chennault.net."
-    	echo "Using $RECORD_NAME to set A record"
-    	echo "HOSTED ZONE ID = $HOSTED_ZONE_ID"
-# Update the A record with the new IP address
-	aws route53 --no-cli-auto-prompt change-resource-record-sets \
-    	--hosted-zone-id $HOSTED_ZONE_ID \
-    	--change-batch '{
-        	"Changes": [
-			{
-            			"Action": "UPSERT",
-            			"ResourceRecordSet": {
-                			"Name": "'$RECORD_NAME'",
-                			"Type": "A",
-                			"TTL": '$TTL',
-                			"ResourceRecords": [
-						{
-							"Value": "'$PUBLIC_IP'"
-						}
-					]
-            			}
-        		}
-		]
-    }'
-else
+if [ "$RUNPOD_POD_ID" ]; then
 	# The environment variable is set
 	echo "The cname for runpod.io web instance is $RUNPOD_POD_ID"
     	cname_record_value=$RUNPOD_POD_ID."-3001.proxy.runpod.net"
