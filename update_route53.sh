@@ -17,6 +17,8 @@ SILENT_MODE=""
 while getopts ":h:r:t:z:a:s" opt; do
     case $opt in
     h) echo "Usage: ${OPTARG}"
+       echo "Exiting"
+       exit 1
     ;;
     r) RECORD_NAME="$OPTARG"
     ;;
