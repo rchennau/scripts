@@ -2,7 +2,7 @@
 
 # Replace with your own values
 HOSTED_ZONE_ID="Z37WEDFVQ5POLT"
-RECORD_NAME="stable.chennault.net"
+RECORD_NAME="stable.chennault.net."
 DOMAIN_NAME="chennault.net."
 CNAME_RECORD="runpod.chennault.net"
 RUNPOD_POD_ID=$RUNPOD_POD_ID
