@@ -47,7 +47,6 @@ if [[ $# -eq 1 && $1 == "-i" ]]; then
 	    --output text
     exit 1
 fi
-
 while getopts "h:r:t:z:a:i" opt; do
     case $opt in
     h) 
@@ -144,12 +143,9 @@ if [ "$RUNPOD_POD_ID" ]; then
                 }
             }]
         }'
-    exit 1
+    echo "The new IP address is : "
+    aws route53 list-resource-record-sets \
+	    --hosted-zone-id $HOSTED_ZONE_ID \
+	    --query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" \
+	    --output text
 fi
-
-
-echo "The new IP address is : "
-aws route53 list-resource-record-sets \
-	--hosted-zone-id $HOSTED_ZONE_ID \
-	--query "ResourceRecordSets[?Name == '$RECORD_NAME'].ResourceRecords[0].Value" \
-	--output text
