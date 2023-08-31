@@ -63,7 +63,19 @@ else
 							fi
                    fi
 			fi
-
+        ;;
+        n|N|no|no)
+            echo "Exiting"
+            exit 1
+            ;;
+            *)
+            echo "Input not valid"
+            exit 1
+            ;;
+    esac
+fi
+            
+            
 #            if [ -d $sd_mount]; then 
 #                cd $sd_mount
 #                git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git 
