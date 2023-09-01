@@ -10,7 +10,7 @@
 #clone_dir="stable-diffusion-webui"
 
 # Commandline arguments for webui.py, for example: export COMMANDLINE_ARGS="--medvram --opt-split-attention"
-export COMMANDLINE_ARGS="--theme=dark --listen --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --share --enable-insecure-extension-access --enable-console-prompts --cors-allow-origins=http://stable.chennault.net,http://home.chennault.net --no-hashing --opt-sdp-attention"
+export COMMANDLINE_ARGS="--theme=dark --listen --allow-code --xformers --skip-torch-cuda-test --no-half-vae --api --share --enable-insecure-extension-access --enable-console-prompts --cors-allow-origins=http://stable.chennault.net,http://home.chennault.net --no-hashing --opt-sdp-attention --ckpt models/Stable-diffusion/SRC-768-SD-15-v8.ckpt"
 
 # python3 executable
 #python_cmd="python3"
