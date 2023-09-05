@@ -24,5 +24,6 @@ while true; do
 
 					        # If the script exited with a non-zero exit code, it encountered an error, restart the script
 						  echo "Script exited with error code $exit_code. Restarting..."
+						  $script
 					  done
 
