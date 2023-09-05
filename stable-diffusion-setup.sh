@@ -106,6 +106,6 @@ else
 	git clone $automatic_release
 fi
 cd $sd_mount_path
-ln -sf $scripts_path/styles.csv
-ln -sf $scripts_path/webui-user.sh
-ln -sf $scripts_path/relaunch.sh
+ln -sf ~/scripts/styles.csv $scripts_path/styles.csv 
+ln -sf ~/scripts/webui-users.sh $scripts_path/webui-user.sh 
+ln -sf ~/scripts/relaunch.sh $scripts_path/relaunch.sh 
