@@ -6,8 +6,8 @@ OS=$(uname)
 id=$(id -u)
 linux_variant=""
 priveledge_user=""
-install_path="/worksapace"
-sd_mount_path="/worksapace/stable-diffusion-webui"
+install_path="/workspace/"
+sd_mount_path="/workspace/stable-diffusion-webui"
 automatic_release="https://github.com/AUTOMATIC1111/stable-diffusion-webui.git"
 # package download links
 
@@ -97,14 +97,15 @@ else
         echo "Upgrade to python3.10 failed"
     fi
 fi
-echo "Stable-diffusion base system installed: $(git --version) and $(python3 --version)
+echo "Stable-diffusion base system installed: $(git --version) and $(python3 --version)"
 cd $install_path
-if [ -d "$install_path/$sd_mount_path" ]; then
-    echo "$install_path/$sd_mount_path already exist"
+if [ -d "$sd_mount_path" ]; then
+    echo "$sd_mount_path already exist"
 else
-    git clone $automatic_release_path
+	cd $sd_mount_path
+	git clone $automatic_release
 fi
-cd $install_path/$sd_mount_path
+cd $sd_mount_path
 ln -sf $scripts_path/styles.csv
 ln -sf $scripts_path/webui-user.sh
 ln -sf $scripts_path/relaunch.sh
