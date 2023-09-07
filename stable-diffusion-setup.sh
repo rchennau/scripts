@@ -109,3 +109,8 @@ cd $sd_mount_path
 ln -sf ~/scripts/styles.csv $scripts_path/styles.csv 
 ln -sf ~/scripts/webui-users.sh $scripts_path/webui-user.sh 
 ln -sf ~/scripts/relaunch.sh $scripts_path/relaunch.sh 
+mv $sd_mount_path/models $sd_mount_path/models.old
+mkdir $sd_mount_path/models
+~/goofys postwonder-models models
+mkdir $sd_mount_path outputs
+~/goofys postwonder-outputs outputs
