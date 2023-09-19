@@ -1,6 +1,5 @@
 #!/bin/bash
-
-#Detect operating system platform
+# Detect operating system platform
 OS=$(uname)
 # echo "Operating System : $OS"
 id=$(id -u)
@@ -9,7 +8,7 @@ priveledge_user=""
 install_path="/workspace/"
 sd_mount_path="/workspace/stable-diffusion-webui"
 automatic_release="https://github.com/AUTOMATIC1111/stable-diffusion-webui.git"
-scripts_path="~/scripts
+scripts_path="~/scripts"
 # package download links
 
 # Check if the user is root
