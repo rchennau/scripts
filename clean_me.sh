@@ -9,3 +9,6 @@ snap list --all | awk '/disabled/{print $1, $3}' |
 sudo apt remove $(deborphan)
 sudo apt autoremove --purge
 sudo apt-get autoclean && sudo apt-get autoremove
+sudo journalctl --vacuum-time=1days
+sudo journalctl --vacuum-files=2
+
