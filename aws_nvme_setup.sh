@@ -26,6 +26,7 @@ fi
 if [ "$fs_type" = "xfs" ]; then
 	if [ -z "$sd_mount" ]; then
         echo "$fs_type on $device is not mounted. Mounting"
+		sudo mkdir $sd_mount
         	if sudo mount $device $sd_mount; then 
             		sudo chown "$id:$id $sd_mount"
             		echo "Mounted $fs_type on $device is mounted at $sd_mount"
@@ -40,6 +41,7 @@ else
                	# fs_type=$(df --output=fstype "$device" | tail -n 1) 
 		fs_type="xfs"
                	echo "File system $fs_type created on device:$device"
+		sudo mkdir $sd_mount
                	if sudo mount $device $sd_mount; then 
                		sudo chown "$id:$id" "$sd_mount"
                		echo "Mounted $fs_type on $device is mounted at $sd_mount" 
