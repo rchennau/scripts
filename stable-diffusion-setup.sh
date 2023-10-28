@@ -112,7 +112,7 @@ ln -sf ~/scripts/webui-users.sh $sd_mount_path/webui-user.sh
 ln -sf ~/scripts/relaunch.sh $sd_mount_path/relaunch.sh 
 # mv $sd_mount_path/models $sd_mount_path/models.old
 # mkdir $sd_mount_path/models
-# ~/goofys postwonder-models models
+~/goofys postwonder-models models
 ~/goofys postwonder-outputs outputs
-aws s3 cp s3://postwonder-models $sd_mount_path/models --recursive
+# aws s3 cp s3://postwonder-models $sd_mount_path/models --recursive
 
