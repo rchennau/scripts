@@ -18,7 +18,12 @@ debian_link="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
 	fi
 #Detect if awscli is installed
 if command -v aws &>/dev/null; then
-	echo "The aws cli is already installed."
+	AWS_CLI_VERSION=$(aws --version 2>&1 | cut -d " " -f1 | cut -d "/" -f2)
+	if [[$AWS_CLI_VERSION == "1" ]]; then
+	echo "The aws cli version $AWS_CLI_VERISON ss installed."
+		echo "Removing version awscli version 1"
+		sudo rm -rf /usr/local/aws
+		sudo rm /usr/local/bin/aws
 else 
 	echo "The asw cli is not installed."
 	if command -v unzip &>/dev/null; then
@@ -46,9 +51,11 @@ else
 									echo "installing unzip."
 									sudo apt-get -y install unzip
 								fi
-                        		unzip "$debian_link"
+                        		unzip "awscli-exe-linux-x86_64.zip"
 								sudo ./aws/install
 								echo "awscli installed"
+								rm -rf aws
+								rm awscli-exe-linux-x86_64.zip
                     		else
                     			echo "OS $linux_variant is currently unsupported"
                     			exit 1
