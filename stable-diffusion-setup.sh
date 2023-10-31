@@ -108,7 +108,7 @@ fi
 sudo chown ubuntu:ubuntu $sd_mount_path
 cd $sd_mount_path
 ln -sf ~/scripts/styles.csv $sd_mount_path/styles.csv 
-ln -sf ~/scripts/webui-users.sh $sd_mount_path/webui-user.sh
+ln -sf ~/scripts/webui-user.sh $sd_mount_path/webui-user.sh
 ln -sf ~/scripts/relaunch.sh $sd_mount_path/relaunch.sh 
 mv $sd_mount_path/models $sd_mount_path/models.old
 mkdir $sd_mount_path/models
