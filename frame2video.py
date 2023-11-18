@@ -5,11 +5,7 @@ import shutil
 from tqdm import tqdm
 import time
 import gc
-import torch
 
-
-
-progress_bar = tqdm(total=total_steps, desc="Progress:", bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt}')
 interpolateDir = "interpolated"
 
 def sorted_files_by_date(directory):
@@ -65,7 +61,6 @@ def main():
         print(f"Processing images in {args.dir} with script {args.script}")
 
     gc.collect()
-    torch.cuda.empty_cache()
     process_files(args.dir, args.script)
 
 if __name__ == '__main__':
