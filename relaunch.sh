@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Path to the shell script
-script="/workspace/stable-diffusion-webui/webui.sh"
+script="/home/ubuntu/stable-diffusion-webui/webui.sh"
 
 while true; do
 	  # Run the script in the background
