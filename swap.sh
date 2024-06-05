@@ -1,6 +1,7 @@
 #!/bin/bash
 # This script creates a 20 gig swap file for ubuntu
 # Source: [How to Create a Swap File on Ubuntu 18.04]
+sudo mkdir /workspace
 
 # Since we use ephemeral space for swap we need to link it to our 'standard' workspace directory
 sudo ln -s /opt/dlami/nvme/ workspace
@@ -9,7 +10,7 @@ sudo ln -s /opt/dlami/nvme/ workspace
 sudo swapon --show
 
 # Create a 25 gig file for swap
-sudo fallocate -l 25G /workspace/swapfile
+sudo fallocate -l 20G /workspace/swapfile
 
 # Adjust the permissions of the file
 sudo chmod 600 /workspace/swapfile
