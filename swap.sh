@@ -1,10 +1,12 @@
 #!/bin/bash
 # This script creates a 20 gig swap file for ubuntu
 # Source: [How to Create a Swap File on Ubuntu 18.04]
-sudo mkdir /workspace
+device=/dev/nvme1n1
+
+sudo mkdir $device 
 
 # Since we use ephemeral space for swap we need to link it to our 'standard' workspace directory
-sudo ln -s /opt/dlami/nvme/ workspace
+sudo ln -s $device  workspace
 
 # Check the current swap status
 sudo swapon --show
