@@ -3,10 +3,10 @@
 # Source: [How to Create a Swap File on Ubuntu 18.04]
 device=/dev/nvme1n1
 
-sudo mkdir $device 
+# sudo mkdir $device 
 
 # Since we use ephemeral space for swap we need to link it to our 'standard' workspace directory
-sudo ln -s $device  workspace
+# sudo ln -s $device  workspace
 
 # Check the current swap status
 sudo swapon --show
