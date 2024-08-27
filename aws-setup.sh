@@ -19,11 +19,15 @@ debian_link="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
 #Detect if awscli is installed
 if command -v aws &>/dev/null; then
 	AWS_CLI_VERSION=$(aws --version 2>&1 | awk '{print $1}' | cut -d "/" -f2)
+	echo "aws --version $AWS_CLI_VERSION"
 	if [ "$AWS_CLI_VERSION" = "1" ]; then
-	echo "The aws cli version $AWS_CLI_VERISON ss installed."
+	echo "The aws cli version $AWS_CLI_VERISON is  installed."
 		echo "Removing version awscli version 1"
 		sudo rm -rf /usr/local/aws
 		sudo rm /usr/local/bin/aws
+	elif [ "$AWS_CLI_VERSION" = "2" ]; then
+		echo "aws cli version $AWS_CLI_VERISON is already installed."
+		exit
 	fi
 	else 
 		echo "The asw cli is not installed."
