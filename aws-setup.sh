@@ -23,9 +23,16 @@ if command -v aws &>/dev/null; then
 	echo "aws --version $AWS_CLI_VERSION"
 	if [ "$AWS_CLI_VERSION" = "1" ]; then
 	echo "The aws cli version $AWS_CLI_VERISON is  installed."
-		echo "Removing version awscli version 1"
+		echo "Removing version awscli version 1 and installing v2"
+		$priveleged_user -y remove awscli 
 		sudo rm -rf /usr/local/aws
 		sudo rm /usr/local/bin/aws
+
+		if command -v unzip &>/dev/null; then
+			echo "unzip is not installed.  Required for installing"
+		# sudo apt-get -y install unzip
+			$priveleged_user -y install unzip 
+		fi
 	elif [ "$AWS_CLI_VERSION" = "2" ]; then
 		echo "aws cli version $AWS_CLI_VERISON is already installed."
 		exit
@@ -37,6 +44,7 @@ if command -v aws &>/dev/null; then
 		# sudo apt-get -y install unzip
 			$priveleged_user -y install unzip 
 		fi
+	fi
 	read -r -t 5 -p "Do you want to install aws cli (yes/no): " answer
 	    if [[ -z "$answer" ]]; then
 	    	answer="yes"
@@ -51,16 +59,16 @@ if command -v aws &>/dev/null; then
                     		if [[ "$ID_LIKE" == "debian" ]]; then
                         		linux_variant="Debian"
                         		echo "Linux variant: $linux_variant.  Begin Download"
-                        		wget "$debian_link"
+                        		wget "$debian_link" 
                         		echo "Begin installation"
 								if command -v unzip &>/dev/null; then
 									echo "installing unzip."
 									sudo apt-get -y install unzip
 								fi
                         		unzip "awscli-exe-linux-x86_64.zip"
-								sudo ./aws/install
+								sudo unzip -d ~/aws/install
 								echo "awscli installed"
-								rm -rf aws
+								# rm -rf aws
 								rm awscli-exe-linux-x86_64.zip
                     		else
                     			echo "OS $linux_variant is currently unsupported"
