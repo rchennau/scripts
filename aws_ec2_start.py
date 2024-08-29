@@ -14,7 +14,7 @@ def start_instance_with_retry(instance_id, max_retries=10):
     """
     ec2 = boto3.client('ec2')
     response = ec2.describe_instances(InstanceIds=[instance_id])
-    current_state = response['Reservations'[0]['Instances'][0]['State']['Name']
+    current_state = response['Reservations'][0]['Instances'][0]['State']['Name']
     print(f"Current state of instance {instance_id}: {current_state}") 
 
     if current_state == 'running':
@@ -34,13 +34,13 @@ def start_instance_with_retry(instance_id, max_retries=10):
                 return True
 
             except Exception as e:
-            print(f"Attempt {attempt}: Failed to start instance {instance_id}. Error: {e}")
-            time.sleep(5)  # Wait for 5 seconds before retrying
+                print(f"Attempt {attempt}: Failed to start instance {instance_id}. Error: {e}")
+                time.sleep(5)  # Wait for 5 seconds before retrying
 
         # If all retries fail, ask the user if they want to continue
         while True:
             continue_choice = input(f"Failed to start after {max_retries} attempts. Continue retrying? (y/n): ")
-                if continue_choice.lower() == 'y':
+            if continue_choice.lower() == 'y':
                 return start_instance_with_retry(instance_id, max_retries)  # Retry with the same max_retries
             elif continue_choice.lower() == 'n':
                 return False
