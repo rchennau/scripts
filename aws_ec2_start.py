@@ -52,8 +52,8 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Start an EC2 instance with retries.")
-    parser.add_argument("instance_id", help="The ID of the EC2 instance to start")
-    parser.add_argument("--max-retries", type=int, default=10, help="Maximum number of retries (default: 10)")
+    parser.add_argument("-i", "--instance_id", help="The ID of the EC2 instance to start")
+    parser.add_argument("-r", "--max-retries", type=int, default=10, help="Maximum number of retries (default: 10)")
 
     args = parser.parse_args()
 
