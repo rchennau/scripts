@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+### This script is to copy from local volume to an S3 bucket
 # Get the time 24 hours ago
 start_time=$(date -d "24 hours ago" +"%Y-%m-%dT%H:%M:%SZ")
 
