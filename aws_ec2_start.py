@@ -17,8 +17,13 @@ def start_instance_with_retry(instance_id, max_retries=10):
     current_state = response['Reservations'][0]['Instances'][0]['State']['Name']
     print(f"Current state of instance {instance_id}: {current_state}") 
 
-    if current_state == 'running':
-        print(f"Instance {instance_id} is already running.")
+    if current_state == 'running' and should_stop:
+        ec2.stop_instances(InstanceIds=[instance_id])
+        printf("Stopping instance {instance_id}...")
+        waiter = ec2.get_waiter('instance_stopped')
+        waiter.wait(InstanceIds=[instance_id])
+        print(f"Instance {instance_id} stopped successfully.")
+        
         return True
     elif current_state == 'stopped':
         for attempt in range(1, max_retries + 1):
@@ -54,6 +59,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Start an EC2 instance with retries.")
     parser.add_argument("-i", "--instance_id", help="The ID of the EC2 instance to start")
     parser.add_argument("-r", "--max-retries", type=int, default=10, help="Maximum number of retries (default: 10)")
+    parser.add_argument("-p", "--stop", help="Stop the instance")
 
     args = parser.parse_args()
 
