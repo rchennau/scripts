@@ -1,22 +1,24 @@
 #!/bin/bash
-models_folder="/workspace/models"
+models_folder="/workspace"
 output_path="/home/ubuntu/comfy/ComfyUI/output"
 
 # cd /workspace/stable-diffusion-webui
 # ln -sf ~/scripts/styles.csv .
 # ln -sf ~/scripts/webui-user.sh .
+
+## S3 storag is faster however it it more expensive than Google Drive
 #~/goofys postwonder-outputs ~/stable-diffusion-webui/outputs
-# rclone mount gdrive:outputs ~/stable-diffusion-webui-forge/outputs --vfs-cache-mode writes --progress --transfers=10 --checkers=8 --drive-chunk-size 64M --no-checksum --fast-list --daemon
-rclone mount gdrive:outputs $output_path --vfs-cache-mode writes --progress --transfers=10 --checkers=8 --drive-chunk-size 64M --no-checksum --fast-list --daemon
+
+## Choose your mounting option. Storage cost on Google Drive per gigabyte is cheaper than S3 but requires developer api access.  Plus factor in AWS transfer cost out.
+rclone mount gdrive:outputs /home/ubuntu/ComfyUI/output --vfs-cache-mode writes --progress --transfers=10 --checkers=8 --drive-chunk-size 64M --no-checksum  --daemonk
 
 if [ ! -d "$models_folder" ]; then
-	echo "Folder '$models_folder' does not exist.  Creating new folder"
-	mkdir -p "$models_folder" # -p creates parent directory if needed
-	echo "Folder '$models_folder' created successfully."
+	echo "Folder '$models_folder' does not exist.  Let's try mounting it."
+	sudo mount /dev/mapper/vg.01-lv_ephemeral /workspace
+	# mkdir -p "$models_folder" # -p creates parent directory if needed
+	# echo "Folder '$models_folder' created successfully."
+	echo "Folder '$models_folder' mounted successfully."
 	aws s3 cp s3://postwonder-models /workspace/models --recursive
 else 
 	echo "Folder '$models_folder' already exist."
 fi
-
-# sudo aws s3 cp s3://postwonder-extensions/ext.tar.gz /workspace/stable-diffusion-webui
-# sudo tar xvf ext.tar.gz
