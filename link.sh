@@ -10,7 +10,21 @@ output_path="/home/ubuntu/comfy/ComfyUI/output"
 #~/goofys postwonder-outputs ~/stable-diffusion-webui/outputs
 
 ## Choose your mounting option. Storage cost on Google Drive per gigabyte is cheaper than S3 but requires developer api access.  Plus factor in AWS transfer cost out.
-rclone mount gdrive:outputs /home/ubuntu/ComfyUI/output --vfs-cache-mode writes --progress --transfers=10 --checkers=8 --drive-chunk-size 64M --no-checksum  --daemonk
+if [ ! -d "$output_path" ]; then
+	echo "Folder '$output_path' does not exist.  Let's try creating it."
+	mkdir "$output_path"
+	echo "Folder '$output_path' directory created successfully."
+	rclone mount gdrive:outputs /home/ubuntu/ComfyUI/output --vfs-cache-mode writes --progress --transfers=10 --checkers=8 --drive-chunk-size 64M --no-checksum  --daemon
+else
+	echo "Folder '$models_folder' already exist."
+	# Check if the directory is empty
+		if [ "$(ls -A $directory)" ]; then
+  		echo "The directory '$directory' is not empty. Exiting"
+	else
+  		echo "The directory '$directory' is empty. Mounting gdrive"
+		rclone mount gdrive:outputs /home/ubuntu/ComfyUI/output --vfs-cache-mode writes --progress --transfers=10 --checkers=8 --drive-chunk-size 64M --no-checksum  --daemon
+	fi
+fi
 
 if [ ! -d "$models_folder" ]; then
 	echo "Folder '$models_folder' does not exist.  Let's try mounting it."
