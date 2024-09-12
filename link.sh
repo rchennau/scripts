@@ -35,4 +35,6 @@ if [ ! -d "$models_folder" ]; then
 	aws s3 cp s3://postwonder-models /workspace/models --recursive
 else 
 	echo "Folder '$models_folder' already exist."
+	sudo mount /dev/mapper/vg.01-lv_ephemeral /workspace
+	aws s3 cp s3://postwonder-models /workspace/models --recursive
 fi
