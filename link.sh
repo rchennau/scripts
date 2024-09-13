@@ -28,13 +28,13 @@ fi
 
 if [ ! -d "$models_folder" ]; then
 	echo "Folder '$models_folder' does not exist.  Let's try mounting it."
-	sudo mount /dev/mapper/vg.01-lv_ephemeral /workspace
+	mount /dev/mapper/vg.01-lv_ephemeral /workspace
 	# mkdir -p "$models_folder" # -p creates parent directory if needed
 	# echo "Folder '$models_folder' created successfully."
 	echo "Folder '$models_folder' mounted successfully."
 	aws s3 cp s3://postwonder-models /workspace/models --recursive
 else 
 	echo "Folder '$models_folder' already exist."
-	sudo mount /dev/mapper/vg.01-lv_ephemeral /workspace
+	mount /dev/mapper/vg.01-lv_ephemeral /workspace
 	aws s3 cp s3://postwonder-models /workspace/models --recursive
 fi
