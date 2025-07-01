@@ -3,21 +3,7 @@
 # This script monitors the command executed in the bottom tmux pane
 # and provides suggestions using the Gemini API.
 
-echo "Gemini Command Monitor"
-echo "------------------------"
-echo "This pane monitors your commands in the pane below."
-echo "After you execute a command, Gemini will provide a tip here."
-echo ""
-
-# Check if inotify-tools is installed, as it's required for efficient monitoring
-if ! command -v inotifywait &> /dev/null; then
-    echo "Error: 'inotifywait' not found."
-    echo "Please install 'inotify-tools' to use this script."
-    echo "On Debian/Ubuntu: sudo apt-get install inotify-tools"
-    echo "On Fedora/CentOS: sudo yum install inotify-tools"
-    exit 1
-fi
-
+# --- Configuration ---
 COMMAND_LOG_FILE="/tmp/gemini_cli_last_command"
 COMMAND_HISTORY_FILE="/tmp/gemini_cli_history"
 HISTORY_LENGTH=10
@@ -29,6 +15,29 @@ OS="linux"
 SHELL="bash"
 DISTRO="Ubuntu"
 # --------------------
+
+# ANSI Colors
+BLUE='\033[0;34m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+# Function to display the welcome screen
+show_welcome() {
+    clear
+    echo -e "${BLUE}"
+    echo "  ██████╗ ███████╗███╗   ███╗██╗███╗   ██╗██╗"
+    echo " ██╔════╝ ██╔════╝████╗ ████║██║████╗  ██║██║"
+    echo " ██║  ███╗█████╗  ██╔████╔██║██║██╔██╗ ██║██║"
+    echo " ██║   ██║██╔══╝  ██║╚██╔╝██║██║██║╚██╗██║██║"
+    echo " ╚██████╔╝███████╗██║ ╚═╝ ██║██║██║ ╚████║██║"
+    echo "  ╚═════╝ ╚══════╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚██║"
+    echo -e "${NC}"
+    echo -e "            ${GREEN}Command Monitor${NC}"
+    echo "---------------------------------------------------"
+    echo "This pane monitors your commands in the pane below."
+    echo "After you execute a command, Gemini will provide a tip here."
+    echo ""
+}
 
 # Function to get a tip from Gemini
 get_gemini_tip() {
@@ -58,6 +67,20 @@ get_gemini_tip() {
     fi
 }
 
+# --- Main Execution ---
+
+# Check if inotify-tools is installed
+if ! command -v inotifywait &> /dev/null; then
+    echo "Error: 'inotifywait' not found."
+    echo "Please install 'inotify-tools' to use this script."
+    echo "On Debian/Ubuntu: sudo apt-get install inotify-tools"
+    echo "On Fedora/CentOS: sudo yum install inotify-tools"
+    exit 1
+fi
+
+show_welcome
+echo "Monitoring for commands..."
+
 # Main monitoring loop
 # inotifywait efficiently waits for the log file to be written to
 while inotifywait -q -e modify "$COMMAND_LOG_FILE"; do
@@ -66,7 +89,13 @@ while inotifywait -q -e modify "$COMMAND_LOG_FILE"; do
 
     # If the command is new and not empty, get a tip for it
     if [[ -n "$current_command" && "$current_command" != "$LAST_COMMAND" ]]; then
+        echo
+        printf "Waiting for Gemini to provide a tip for: '%s'...\n" "$current_command"
+        
         get_gemini_tip "$current_command"
+        
+        echo "Monitoring for commands..."
+        
         LAST_COMMAND="$current_command"
 
         # Add command to history and trim the history file
@@ -74,3 +103,4 @@ while inotifywait -q -e modify "$COMMAND_LOG_FILE"; do
         tail -n "$HISTORY_LENGTH" "$COMMAND_HISTORY_FILE" > "${COMMAND_HISTORY_FILE}.tmp" && mv "${COMMAND_HISTORY_FILE}.tmp" "$COMMAND_HISTORY_FILE"
     fi
 done
+
